@@ -1,0 +1,110 @@
+.splash {
+    position: relative;
+    width: 852px;
+    height: 393px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* dark fade-in over the video on load */
+.splash__video {
+    animation: videofadein 1.2s ease forwards;
+}
+
+.splash__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ── Logo ─────────────────────────────────────────────────────────────────── */
+.splash__logo {
+    width: 380px;
+    animation:
+        logoEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
+        logoPulse    3s  ease-in-out                     1.5s infinite;
+}
+
+/* ── Bar wrapper ──────────────────────────────────────────────────────────── */
+.splash__bar-wrapper {
+    position: relative;
+    width: 770px;
+    height: 56px;
+    animation: barEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+}
+
+.splash__bar-empty {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.splash__bar-fill-clip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow: hidden;
+    /* smooth the JS width updates */
+    transition: width 30ms linear;
+}
+
+.splash__bar-filled {
+    width: 770px;
+    height: 56px;
+    object-fit: contain;
+}
+
+
+@keyframes videofadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes logoEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes logoPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(201, 168, 76, 0.5))
+                drop-shadow(0 0 25px rgba(0, 229, 255, 0.2));
+    }
+    50% {
+        filter: drop-shadow(0 0 22px rgba(201, 168, 76, 0.9))
+                drop-shadow(0 0 50px rgba(0, 229, 255, 0.45));
+    }
+}
+
+@keyframes barEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
