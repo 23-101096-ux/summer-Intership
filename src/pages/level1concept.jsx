@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './level1concept.css';
 
-
 import bg          from '../assets/bg.png';            
 import characterImg from '../assets/goldencharecter.png';     
 import closeIcon    from '../assets/x.svg';       
@@ -12,41 +11,21 @@ import lotusIcon    from '../assets/warda.png';
 import lockIcon     from '../assets/bluelock.png';          
 
 const Level1Concept = () => {
-
     const navigate = useNavigate();
-
-    const handleStartLevel = () => {
-        if (navigate) {
-            navigate('/game-play-screen'); 
-        } else {
-            window.location.href = '/game-play-screen';
-        }
-    };
-
-    const handleClose = () => {
-        if (navigate) {
-            navigate(-1);
-        } else {
-            window.history.back();
-        }
-    };
 
     return (
         <div className="level-modal-wrapper">
-              <img src={bg} className="level-modal__bg" alt="" />
+            <img src={bg} className="level-modal-wrapper__bg" alt="" />
+            
             <div className="level-modal">
-             
-              
-                <button className="level-modal__close-btn" onClick={handleClose}>
+                <button className="level-modal__close-btn" onClick={() => navigate(-1)}>
                     <img src={closeIcon} alt="X" />
                 </button>
 
-                {/* Character Left Frame */}
                 <div className="level-modal__left-panel">
                     <img src={characterImg} className="level-modal__character" alt="Character" />
                 </div>
 
-                {/* Center Content Text Details */}
                 <div className="level-modal__center-panel">
                     <h1 className="level-modal__title">Level Concept</h1>
                     
@@ -67,11 +46,10 @@ const Level1Concept = () => {
                         </p>
                     </div>
 
-                    {/* Start Button Zone */}
                     <div className="level-modal__action">
                         <button 
                             className="level-modal__start-btn" 
-                            onClick={handleStartLevel}
+                            onClick={() => navigate('/game-play-screen')}
                             style={{ backgroundImage: `url(${startBtnImg})` }}
                         >
                             START LEVEL
@@ -79,21 +57,25 @@ const Level1Concept = () => {
                     </div>
                 </div>
 
-                {/* Collectible Icons Right Column */}
                 <div className="level-modal__right-panel">
-                    <div className="level-modal__icon-box level-modal__icon-box--gold">
-                        <img src={ankhIcon} alt="Ankh Symbol" />
+                    <div className="level-modal__icon-row level-modal__icon-row--top">
+                        <div className="level-modal__icon-box">
+                            <img src={ankhIcon} alt="Ankh Symbol" />
+                        </div>
                     </div>
                     
-                    <div className="level-modal__icon-box level-modal__icon-box--purple">
-                        <img src={lotusIcon} alt="Lotus Symbol" />
+                    <div className="level-modal__icon-row level-modal__icon-row--mid">
+                        <div className="level-modal__icon-box">
+                            <img src={lotusIcon} alt="Lotus Symbol" />
+                        </div>
                     </div>
                     
-                    <div className="level-modal__icon-box level-modal__icon-box--teal">
-                        <img src={lockIcon} alt="Locked Status" />
+                    <div className="level-modal__icon-row level-modal__icon-row--bot">
+                        <div className="level-modal__icon-box">
+                            <img src={lockIcon} alt="Locked Status" />
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );
