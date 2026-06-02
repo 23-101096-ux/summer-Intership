@@ -16,7 +16,7 @@
     object-fit: cover;
 }
 
-/* dark fade-in over the video on load */
+
 .splash__video {
     animation: videofadein 1.2s ease forwards;
 }
@@ -30,7 +30,7 @@
     gap: 20px;
 }
 
-/* ── Logo ─────────────────────────────────────────────────────────────────── */
+
 .splash__logo {
     width: 380px;
     animation:
@@ -38,7 +38,7 @@
         logoPulse    3s  ease-in-out                     1.5s infinite;
 }
 
-/* ── Bar wrapper ──────────────────────────────────────────────────────────── */
+
 .splash__bar-wrapper {
     position: relative;
     width: 770px;
@@ -60,7 +60,7 @@
     left: 0;
     height: 100%;
     overflow: hidden;
-    /* smooth the JS width updates */
+
     transition: width 30ms linear;
 }
 

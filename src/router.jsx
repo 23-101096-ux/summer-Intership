@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Splash from "./pages/splash";
 import Menu from "./pages/menu";
 import Levels from "./pages/levels";
+import Level1Concept from "./pages/level1concept";
 
 
 const SplashWrapper = () => {
@@ -15,11 +16,13 @@ const Routess = () => {
     return (
         <BrowserRouter>
             <Routes>
-                {/* 3. Use the new wrapper name here */}
+
                 <Route path="/" element={<SplashWrapper />} />
                 <Route path="/menu" element={<Menu />} />
                 <Route path="/levels" element={<Levels />} />
-            </Routes>
+                <Route path="/level1concept" element={<Level1Concept />} />      
+                
+                                </Routes>
         </BrowserRouter>
     );
 }
