@@ -78,7 +78,6 @@
     padding: 24px 28px;
     display: flex;
     box-sizing: border-box;
-    background: rgba(2, 10, 12, 0.6);
     box-shadow:
         0 0 0 1px rgba(216, 164, 58, 0.1),
         0 0 40px rgba(216, 164, 58, 0.08),
@@ -92,24 +91,13 @@
 }
 
 
-.level-modal__corner {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-color: #D8A43A;
-    border-style: solid;
-    animation: cornerGlow 3s ease-in-out infinite alternate;
-}
+
 
 @keyframes cornerGlow {
     0%   { opacity: 0.5; }
     100% { opacity: 1; filter: drop-shadow(0 0 4px #D8A43A); }
 }
 
-.level-modal__corner--tl { top: 6px;    left: 6px;   border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
-.level-modal__corner--tr { top: 6px;    right: 6px;  border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
-.level-modal__corner--bl { bottom: 6px; left: 6px;   border-width: 0 0 2px 2px; border-radius: 0 0 0 4px; }
-.level-modal__corner--br { bottom: 6px; right: 6px;  border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
 
 
 .level-modal__close-btn {

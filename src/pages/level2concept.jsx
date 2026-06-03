@@ -60,7 +60,7 @@ const Level2Concept = () => {
 
             <div className="l2-modal">
 
-                {/* Decorative corner brackets */}
+    
                 <span className="l2-corner l2-corner--tl" />
                 <span className="l2-corner l2-corner--tr" />
                 <span className="l2-corner l2-corner--bl" />
