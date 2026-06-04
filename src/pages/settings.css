@@ -1,4 +1,37 @@
-/* ── Parent Screen Wrapper Centering ── */
+/* ═══════════════════════════════════════════════
+   SETTINGS SCREEN — Full Rewrite
+   ═══════════════════════════════════════════════ */
+
+/* ── Entry Animation ── */
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-18px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)      scale(1);    }
+}
+@keyframes sectionReveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 8px #fed700, 1px 1px 2px #000; }
+    50%       { text-shadow: 0 0 18px #fed700, 0 0 32px rgba(254,215,0,0.4), 1px 1px 2px #000; }
+}
+@keyframes sliderGlow {
+    0%, 100% { filter: drop-shadow(0 0 3px rgba(0,229,255,0.5)); }
+    50%       { filter: drop-shadow(0 0 10px rgba(0,229,255,0.9)); }
+}
+@keyframes toggleBounce {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.18); }
+    70%  { transform: scale(0.92); }
+    100% { transform: scale(1); }
+}
+@keyframes btnPress {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(0.94); }
+    100% { transform: scale(1); }
+}
+
+/* ── Wrapper ── */
 .settings-wrapper {
     position: relative;
     display: flex;
@@ -9,6 +42,7 @@
     box-sizing: border-box;
     overflow: hidden;
     margin: 0 auto;
+    animation: fadeSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) both;
 }
 
 .settings-wrapper__bg {
@@ -21,7 +55,7 @@
     pointer-events: none;
 }
 
-/* ── Main Outer Golden Frame ── */
+/* ── Outer Frame ── */
 .settings-frame {
     position: relative;
     z-index: 3;
@@ -40,10 +74,10 @@
     pointer-events: none;
 }
 
-/* ── Centered Header Title Banner Ribbon ── */
+/* ── Title Banner ── */
 .settings-title-banner {
     position: absolute;
-    top: -4px; /* Perfectly aligns with top edge */
+    top: -4px;
     left: 50%;
     transform: translateX(-50%);
     width: 324px;
@@ -67,39 +101,44 @@
     position: relative;
     z-index: 1;
     color: #FED700;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 900;
     letter-spacing: 4px;
     text-transform: uppercase;
     font-family: 'Times New Roman', Times, serif;
-    text-shadow: 2px 2px 2px #000;
+    animation: glowPulse 3s ease-in-out infinite;
     margin-top: -4px;
 }
 
-/* ── 2x2 Clean Content Grid Layout Matrix ── */
+/* ── 2×2 Grid ── */
 .settings-content {
     position: absolute;
-    top: 60px;
-    bottom: 72px;
-    left: 56px;
-    right: 56px;
+    top: 55px;
+    bottom: 66px;
+    left: 52px;
+    right: 52px;
     z-index: 4;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 16px 44px;
+    grid-template-rows: auto auto;
+    gap: 10px 40px;
     box-sizing: border-box;
+    align-content: start;
 }
 
-/* ── Section Blocks Layout ── */
+/* ── Section base ── */
 .settings-section {
     position: relative;
-    width: 100%;
-    height: 100%;
     box-sizing: border-box;
 }
 
-.settings-section__frame-img {
+/* ── Per-section frame images with unique heights ── */
+
+/* SETTINGS (sliders) — taller to fit 2 sliders */
+.settings-section--sliders {
+    height: 108px;
+}
+.settings-section--sliders .settings-section__frame-img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -109,96 +148,161 @@
     z-index: 0;
 }
 
+/* GAMEPLAY (3 toggles) */
+.settings-section--gameplay {
+    height: 108px;
+}
+.settings-section--gameplay .settings-section__frame-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* GRAPHICS QUALITY (3 buttons) */
+.settings-section--graphics {
+    height: 82px;
+}
+.settings-section--graphics .settings-section__frame-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* OTHERS (2 buttons) */
+.settings-section--others {
+    height: 82px;
+}
+.settings-section--others .settings-section__frame-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Section reveal stagger ── */
+.settings-section:nth-child(1) { animation: sectionReveal 0.4s 0.15s both; }
+.settings-section:nth-child(2) { animation: sectionReveal 0.4s 0.25s both; }
+.settings-section:nth-child(3) { animation: sectionReveal 0.4s 0.35s both; }
+.settings-section:nth-child(4) { animation: sectionReveal 0.4s 0.45s both; }
+
+/* ── Section inner ── */
 .settings-section__inner {
     position: relative;
     z-index: 2;
-    padding: 12px 32px;
+    padding: 6px 18px 8px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 6px;
     height: 100%;
     box-sizing: border-box;
 }
 
-/* ── Centered Section Sub-Headings ── */
+/* ── Section heading ── */
 .settings-section__heading {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .settings-section__title {
     color: #FED700;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 900;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     font-family: 'Times New Roman', Times, serif;
-    text-shadow: 1px 1px 2px #000;
+    text-shadow: 0 0 10px rgba(254,215,0,0.6), 1px 1px 2px #000;
     text-align: center;
 }
 
-/* ── Fixed Slider Rows Framework ── */
+/* ════════════════════════════════
+   INTERACTIVE SLIDERS
+   ════════════════════════════════ */
 .settings-slider-row {
     position: relative;
     width: 100%;
-    height: 22px;
+    height: 34px;
     display: flex;
     align-items: center;
-    margin: 2px 0;
 }
 
-.settings-slider-track-wrapper {
-    position: relative;
-    width: 100%;
-    height: 16px;
-    cursor: pointer;
-}
-
+/* The bg track image sits behind everything */
 .settings-slider-bg-asset {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: stretch; /* Fits exactly inside the layout wrapper boundaries */
+    object-fit: fill;
     pointer-events: none;
+    z-index: 0;
 }
 
-/* Constrains slider thumb handles within boundaries */
+/* Native range input overlaid, fully transparent except interaction */
+.settings-slider-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+    margin: 0;
+    padding: 0;
+}
+
+/* Custom fill bar that mirrors the value */
+.settings-slider-fill {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 5px;
+    background: linear-gradient(90deg, #00e5ff, #00b8d9);
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 1;
+    transition: width 0.08s linear;
+    box-shadow: 0 0 6px rgba(0,229,255,0.7);
+}
+
+/* Custom thumb dot */
 .settings-slider-thumb {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 22px;
     height: 22px;
-    cursor: grab;
-    z-index: 3;
+    pointer-events: none;
+    z-index: 2;
+    animation: sliderGlow 2s ease-in-out infinite;
+    transition: left 0.08s linear;
 }
 
-.settings-slider-thumb:active {
-    cursor: grabbing;
-}
-
-.settings-slider-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* ── Quality Buttons Array Matrix ── */
+/* ── Quality Buttons ── */
 .settings-quality-btns {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
 .settings-quality-btn {
     flex: 1;
-    height: 34px;
+    height: 32px;
     border: none;
     cursor: pointer;
     font-family: 'Times New Roman', Times, serif;
@@ -207,7 +311,11 @@
     text-transform: uppercase;
     position: relative;
     background: transparent;
+    transition: transform 0.1s;
 }
+
+.settings-quality-btn:hover { transform: scale(1.04); }
+.settings-quality-btn:active { animation: btnPress 0.2s both; }
 
 .settings-quality-btn__bg {
     position: absolute;
@@ -226,53 +334,63 @@
 }
 
 .settings-quality-btn--active .settings-quality-btn__label {
-    color: #00e5ff; /* Matches glowing active selection matrix style */
-    text-shadow: 0 0 4px rgba(0,229,255,0.6);
+    color: #00e5ff;
+    text-shadow: 0 0 6px rgba(0,229,255,0.8);
 }
 
-/* ── Configuration Row Toggles ── */
+/* ── Toggle Rows ── */
 .settings-toggle-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 24px;
+    height: 22px;
 }
 
 .settings-toggle-label {
     color: #ffea7a;
-    font-size: 12px;
+    font-size: 13px;
     font-family: 'Times New Roman', Times, serif;
     text-shadow: 1px 1px 1px #000;
 }
 
 .settings-toggle-btn {
     width: 44px;
-    height: 20px;
+    height: 22px;
     border: none;
     background: transparent;
     cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s;
+}
+
+.settings-toggle-btn:active {
+    animation: toggleBounce 0.3s both;
 }
 
 .settings-toggle-btn img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    display: block;
 }
 
-/* ── Utility Options Links Buttons ── */
+/* ── Others Buttons ── */
 .settings-others-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 32px;
+    height: 28px;
     border: none;
     cursor: pointer;
     width: 100%;
     position: relative;
     background: transparent;
-    margin-top: 2px;
+    transition: transform 0.1s;
 }
+
+.settings-others-btn:hover { transform: scale(1.02); }
+.settings-others-btn:active { animation: btnPress 0.2s both; }
 
 .settings-others-btn__bg {
     position: absolute;
@@ -281,6 +399,7 @@
     height: 100%;
     object-fit: fill;
     z-index: 0;
+    pointer-events: none;
 }
 
 .settings-others-btn__label {
@@ -291,21 +410,23 @@
     text-transform: uppercase;
     font-family: 'Times New Roman', Times, serif;
     text-shadow: 1px 1px 2px #000;
+    letter-spacing: 1px;
+    padding: 0 28px;
 }
 
 .settings-others-btn--reset .settings-others-btn__label { color: #ff5e5e; }
 .settings-others-btn--help  .settings-others-btn__label { color: #00e5ff; }
 
-/* ── ✨ Footer Control Operation Action Bar ── */
+/* ── Footer Action Bar ── */
 .settings-actions {
     position: absolute;
-    bottom: 14px;
+    bottom: 12px;
     left: 48px;
     right: 48px;
     z-index: 5;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Spreads components exactly like the template image */
+    justify-content: space-between;
     box-sizing: border-box;
 }
 
@@ -319,7 +440,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.12s;
 }
+
+.settings-action-btn:hover  { transform: scale(1.04); }
+.settings-action-btn:active { animation: btnPress 0.2s both; }
 
 .settings-action-btn__bg {
     position: absolute;
@@ -340,10 +465,11 @@
     text-shadow: 1px 1px 2px #000;
     letter-spacing: 1px;
 }
+
 .settings-action-btn--cancel .settings-action-btn__label { color: #ffbfbf; }
 .settings-action-btn--save   .settings-action-btn__label { color: #ffee7c; }
 
-/* Centered Bottom Emblem Bracket Box */
+/* ── Emblem ── */
 .settings-emblem {
     width: 120px;
     height: 52px;

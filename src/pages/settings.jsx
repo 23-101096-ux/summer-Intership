@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './settings.css';
 
@@ -10,102 +10,106 @@ import sectionGameplay from '../assets/gameplay.png';
 import sectionGraphics from '../assets/GRAPHICSQUALITY.png';
 import sectionOthers   from '../assets/others.png';
 import emblemImg       from '../assets/ankh-emblem.png';
-import thumbImg        from '../assets/slider-thumb.svg';
 import btnGoldImg      from '../assets/btn-gold.png';
 import btnBlueImg      from '../assets/btn-blue.png';
 import toggleOnImg     from '../assets/toggle-on.png';
 import toggleOffImg    from '../assets/toggle-off.png';
 import cancelBgImg     from '../assets/btn-cancel.png';
 import saveBgImg       from '../assets/btn-save.png';
+import sliderHalfBg    from '../assets/slider-half.png';
+import sliderFullBg    from '../assets/slider-full.png';
+import btnResetBgImg   from '../assets/btn-reset-bg.png';
+import btnHelpBgImg    from '../assets/btn-help-bg.png';
 
-// Import slider background assets
-import sliderHalfBg    from '../assets/slider-half.png'; // 50% filled texture
-import sliderFullBg    from '../assets/slider-full.png'; // 100% filled texture
+const QUALITY_LEVELS = ['LOW', 'MEDIUM', 'HIGH'];
 
-const QUALITY_LEVELS  = ['LOW', 'MEDIUM', 'HIGH'];
-
-const AssetSwappingSlider = ({ value, onChange }) => {
+/* ── Interactive Slider ──────────────────────────────────── */
+const InteractiveSlider = ({ value, onChange, bgSrc }) => {
     const trackRef = useRef(null);
-    const dragging = useRef(false);
 
-    const clamp = v => Math.min(100, Math.max(0, v));
-
-    const posFromEvent = e => {
-        if (!trackRef.current) return 0;
-        const rect    = trackRef.current.getBoundingClientRect();
+    const getValueFromEvent = useCallback((e) => {
+        const rect = trackRef.current.getBoundingClientRect();
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        return clamp(((clientX - rect.left) / rect.width) * 100);
-    };
+        const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+        return Math.round(ratio * 100);
+    }, []);
 
-    const onDown = e => {
-        dragging.current = true;
-        onChange(posFromEvent(e));
+    const handlePointerDown = useCallback((e) => {
         e.preventDefault();
-    };
+        onChange(getValueFromEvent(e));
 
-    useEffect(() => {
-        const onMove = e => { if (dragging.current) onChange(posFromEvent(e)); };
-        const onUp   = ()  => { dragging.current = false; };
-        window.addEventListener('mousemove', onMove);
-        window.addEventListener('mouseup',   onUp);
-        window.addEventListener('touchmove', onMove, { passive: false });
-        window.addEventListener('touchend',  onUp);
-        return () => {
+        const onMove = (ev) => onChange(getValueFromEvent(ev));
+        const onUp   = () => {
             window.removeEventListener('mousemove', onMove);
             window.removeEventListener('mouseup',   onUp);
             window.removeEventListener('touchmove', onMove);
             window.removeEventListener('touchend',  onUp);
         };
-    }, [onChange]);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup',   onUp);
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend',  onUp);
+    }, [onChange, getValueFromEvent]);
 
-    // Choose asset image background dynamically based on slider state percentage
-    const currentTrackAsset = value > 50 ? sliderFullBg : sliderHalfBg;
+    // Calculate fill width and thumb position within the track padding
+    const TRACK_PAD_L = 8;
+    const TRACK_PAD_R = 18;
+    const fillPct     = value / 100;
 
     return (
-        <div className="settings-slider-row">
-            <div 
-                className="settings-slider-track-wrapper" 
-                ref={trackRef} 
-                onMouseDown={onDown} 
-                onTouchStart={onDown}
+        <div className="settings-slider-row" ref={trackRef} onMouseDown={handlePointerDown} onTouchStart={handlePointerDown}>
+            <img src={bgSrc} className="settings-slider-bg-asset" alt="Slider track" draggable={false} />
+
+            {/* Filled portion */}
+            <div
+                className="settings-slider-fill"
+                style={{
+                    left:  `${TRACK_PAD_L}px`,
+                    width: `calc(${fillPct * 100}% - ${TRACK_PAD_L + TRACK_PAD_R}px)`,
+                }}
+            />
+
+            {/* Thumb — rendered as a glowing diamond circle */}
+            <div
+                className="settings-slider-thumb"
+                style={{
+                    left: `calc(${TRACK_PAD_L}px + ${fillPct} * (100% - ${TRACK_PAD_L + TRACK_PAD_R}px))`,
+                }}
             >
-                {/* Dynamically swapped track vector slice image */}
-                <img src={currentTrackAsset} className="settings-slider-bg-asset" alt="" draggable={false} />
-                
-                {/* Knob Position */}
-                <div className="settings-slider-thumb" style={{ left: `${value}%` }}>
-                    <img src={thumbImg} alt="" draggable={false} />
-                </div>
+                <svg width="22" height="22" viewBox="0 0 22 22">
+                    <circle cx="11" cy="11" r="10" fill="#0a2a30" stroke="#00e5ff" strokeWidth="1.5"/>
+                    <polygon points="11,5 16,11 11,17 6,11" fill="#00e5ff" opacity="0.9"/>
+                    <polygon points="11,5 16,11 11,17 6,11" fill="none" stroke="#fff" strokeWidth="0.5"/>
+                </svg>
             </div>
         </div>
     );
 };
 
+/* ── Toggle ──────────────────────────────────────────────── */
 const Toggle = ({ on, onToggle }) => (
     <button className="settings-toggle-btn" onClick={onToggle} aria-pressed={on}>
-        <img src={on ? toggleOnImg : toggleOffImg} alt="" />
+        <img src={on ? toggleOnImg : toggleOffImg} alt={on ? 'On' : 'Off'} />
     </button>
 );
 
+/* ── Section Heading ─────────────────────────────────────── */
 const SectionHeading = ({ title }) => (
     <div className="settings-section__heading">
-        <div className="settings-section__heading-line" />
-        <span className="settings-section__heading-dot" />
         <span className="settings-section__title">{title}</span>
-        <span className="settings-section__heading-dot" />
-        <div className="settings-section__heading-line settings-section__heading-line--right" />
     </div>
 );
 
+/* ── Main Component ──────────────────────────────────────── */
 const Settings = () => {
     const navigate = useNavigate();
 
-    const [slider1, setSlider1] = useState(50);
-    const [slider2, setSlider2] = useState(100);
-    const [quality, setQuality] = useState('HIGH');
-    const [sound,   setSound]   = useState(false);
-    const [vibrate, setVibrate] = useState(true);
-    const [notif,   setNotif]   = useState(true);
+    const [quality,  setQuality]  = useState('HIGH');
+    const [sound,    setSound]    = useState(false);
+    const [vibrate,  setVibrate]  = useState(true);
+    const [notif,    setNotif]    = useState(true);
+    const [volSlider, setVolSlider] = useState(80);   
+    const [sfxSlider, setSfxSlider] = useState(45);   
 
     return (
         <div className="settings-wrapper">
@@ -114,33 +118,41 @@ const Settings = () => {
             <div className="settings-frame">
                 <img src={frameImg} className="settings-frame__bg" alt="" />
 
-                {/* Header Title Ribbon */}
+
                 <div className="settings-title-banner">
                     <img src={titleBannerImg} className="settings-title-banner__img" alt="" />
                     <span className="settings-title-banner__text">SETTINGS</span>
                 </div>
 
-                {/* 2x2 Clean Structural Grid Matrix Layout */}
+  
                 <div className="settings-content">
 
-                    {/* Section 1: Sliders Row Layout */}
-                    <div className="settings-section">
+
+                    <div className="settings-section settings-section--sliders">
                         <img src={sectionSettings} className="settings-section__frame-img" alt="" />
                         <div className="settings-section__inner">
                             <SectionHeading title="SETTINGS" />
-                            <AssetSwappingSlider value={slider1} onChange={setSlider1} />
-                            <AssetSwappingSlider value={slider2} onChange={setSlider2} />
+                            <InteractiveSlider
+                                value={volSlider}
+                                onChange={setVolSlider}
+                                bgSrc={sliderFullBg}
+                            />
+                            <InteractiveSlider
+                                value={sfxSlider}
+                                onChange={setSfxSlider}
+                                bgSrc={sliderHalfBg}
+                            />
                         </div>
                     </div>
 
-                    {/* Section 2: Toggles Grid Container */}
-                    <div className="settings-section">
+
+                    <div className="settings-section settings-section--gameplay">
                         <img src={sectionGameplay} className="settings-section__frame-img" alt="" />
                         <div className="settings-section__inner">
                             <SectionHeading title="GAMEPLAY" />
                             <div className="settings-toggle-row">
                                 <span className="settings-toggle-label">Sound</span>
-                                <Toggle on={sound} onToggle={() => setSound(v => !v)} />
+                                <Toggle on={sound}   onToggle={() => setSound(v => !v)} />
                             </div>
                             <div className="settings-toggle-row">
                                 <span className="settings-toggle-label">Vibration</span>
@@ -148,13 +160,13 @@ const Settings = () => {
                             </div>
                             <div className="settings-toggle-row">
                                 <span className="settings-toggle-label">Notifications</span>
-                                <Toggle on={notif} onToggle={() => setNotif(v => !v)} />
+                                <Toggle on={notif}   onToggle={() => setNotif(v => !v)} />
                             </div>
                         </div>
                     </div>
 
-                    {/* Section 3: Graphics Quality Selector */}
-                    <div className="settings-section">
+
+                    <div className="settings-section settings-section--graphics">
                         <img src={sectionGraphics} className="settings-section__frame-img" alt="" />
                         <div className="settings-section__inner">
                             <SectionHeading title="GRAPHICS QUALITY" />
@@ -176,15 +188,17 @@ const Settings = () => {
                         </div>
                     </div>
 
-                    {/* Section 4: Secondary Action Panel Links */}
-                    <div className="settings-section">
+
+                    <div className="settings-section settings-section--others">
                         <img src={sectionOthers} className="settings-section__frame-img" alt="" />
                         <div className="settings-section__inner">
                             <SectionHeading title="OTHERS" />
                             <button className="settings-others-btn settings-others-btn--reset">
+                                <img src={btnResetBgImg} className="settings-others-btn__bg" alt="" />
                                 <span className="settings-others-btn__label">Reset Progress</span>
                             </button>
                             <button className="settings-others-btn settings-others-btn--help">
+                                <img src={btnHelpBgImg} className="settings-others-btn__bg" alt="" />
                                 <span className="settings-others-btn__label">Help &amp; Support</span>
                             </button>
                         </div>
@@ -192,7 +206,7 @@ const Settings = () => {
 
                 </div>
 
-                {/* Balanced Operations Center Footer Action Bar */}
+ 
                 <div className="settings-actions">
                     <button className="settings-action-btn settings-action-btn--cancel" onClick={() => navigate(-1)}>
                         <img src={cancelBgImg} className="settings-action-btn__bg" alt="" />
@@ -208,7 +222,6 @@ const Settings = () => {
                         <span className="settings-action-btn__label">SAVE CHANGES</span>
                     </button>
                 </div>
-
             </div>
         </div>
     );
