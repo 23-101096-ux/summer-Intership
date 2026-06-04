@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   SETTINGS SCREEN — Full Rewrite
+   SETTINGS SCREEN — Complete Unified Stylesheet
    ═══════════════════════════════════════════════ */
 
 /* ── Entry Animation ── */
@@ -14,16 +14,6 @@
 @keyframes glowPulse {
     0%, 100% { text-shadow: 0 0 8px #fed700, 1px 1px 2px #000; }
     50%       { text-shadow: 0 0 18px #fed700, 0 0 32px rgba(254,215,0,0.4), 1px 1px 2px #000; }
-}
-@keyframes sliderGlow {
-    0%, 100% { filter: drop-shadow(0 0 3px rgba(0,229,255,0.5)); }
-    50%       { filter: drop-shadow(0 0 10px rgba(0,229,255,0.9)); }
-}
-@keyframes toggleBounce {
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.18); }
-    70%  { transform: scale(0.92); }
-    100% { transform: scale(1); }
 }
 @keyframes btnPress {
     0%   { transform: scale(1); }
@@ -59,8 +49,8 @@
 .settings-frame {
     position: relative;
     z-index: 3;
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 90%;
     box-sizing: border-box;
 }
 
@@ -110,35 +100,30 @@
     margin-top: -4px;
 }
 
-/* ── 2×2 Grid ── */
+/* ── Content Layout Grid ── */
 .settings-content {
     position: absolute;
-    top: 55px;
+    top: 52px;
     bottom: 66px;
     left: 52px;
     right: 52px;
     z-index: 4;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 10px 40px;
+    grid-template-rows: 112px 90px;
+    gap: 14px 40px;
     box-sizing: border-box;
-    align-content: start;
 }
 
-/* ── Section base ── */
+/* ── Section Blocks ── */
 .settings-section {
     position: relative;
     box-sizing: border-box;
+    width: 100%;
+    height: 100%;
 }
 
-/* ── Per-section frame images with unique heights ── */
-
-/* SETTINGS (sliders) — taller to fit 2 sliders */
-.settings-section--sliders {
-    height: 108px;
-}
-.settings-section--sliders .settings-section__frame-img {
+.settings-section__frame-img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -148,99 +133,62 @@
     z-index: 0;
 }
 
-/* GAMEPLAY (3 toggles) */
-.settings-section--gameplay {
-    height: 108px;
-}
-.settings-section--gameplay .settings-section__frame-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* GRAPHICS QUALITY (3 buttons) */
-.settings-section--graphics {
-    height: 82px;
-}
-.settings-section--graphics .settings-section__frame-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* OTHERS (2 buttons) */
-.settings-section--others {
-    height: 82px;
-}
-.settings-section--others .settings-section__frame-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* ── Section reveal stagger ── */
 .settings-section:nth-child(1) { animation: sectionReveal 0.4s 0.15s both; }
 .settings-section:nth-child(2) { animation: sectionReveal 0.4s 0.25s both; }
 .settings-section:nth-child(3) { animation: sectionReveal 0.4s 0.35s both; }
 .settings-section:nth-child(4) { animation: sectionReveal 0.4s 0.45s both; }
 
-/* ── Section inner ── */
 .settings-section__inner {
     position: relative;
     z-index: 2;
-    padding: 6px 18px 8px;
+    padding: 6px 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 6px;
+    gap: 8px;
     height: 100%;
     box-sizing: border-box;
 }
 
-/* ── Section heading ── */
 .settings-section__heading {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
+    margin-top: -2px;
     margin-bottom: 2px;
 }
 
 .settings-section__title {
     color: #FED700;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 900;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: 'Times New Roman', Times, serif;
-    text-shadow: 0 0 10px rgba(254,215,0,0.6), 1px 1px 2px #000;
+    text-shadow: 0 0 8px rgba(254,215,0,0.6), 1px 1px 2px #000;
     text-align: center;
 }
 
-/* ════════════════════════════════
-   INTERACTIVE SLIDERS
-   ════════════════════════════════ */
-.settings-slider-row {
+/* ── Image-Swapping Sliders ── */
+.settings-slider-clickable-row {
     position: relative;
     width: 100%;
-    height: 34px;
-    display: flex;
-    align-items: center;
+    height: 28px;
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.1s ease;
 }
 
-/* The bg track image sits behind everything */
+.settings-slider-clickable-row:active {
+    transform: scale(0.99);
+}
+
 .settings-slider-bg-asset {
     position: absolute;
     inset: 0;
@@ -248,56 +196,15 @@
     height: 100%;
     object-fit: fill;
     pointer-events: none;
-    z-index: 0;
-}
-
-/* Native range input overlaid, fully transparent except interaction */
-.settings-slider-input {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 3;
-    margin: 0;
-    padding: 0;
-}
-
-/* Custom fill bar that mirrors the value */
-.settings-slider-fill {
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 5px;
-    background: linear-gradient(90deg, #00e5ff, #00b8d9);
-    border-radius: 3px;
-    pointer-events: none;
     z-index: 1;
-    transition: width 0.08s linear;
-    box-shadow: 0 0 6px rgba(0,229,255,0.7);
-}
-
-/* Custom thumb dot */
-.settings-slider-thumb {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 22px;
-    height: 22px;
-    pointer-events: none;
-    z-index: 2;
-    animation: sliderGlow 2s ease-in-out infinite;
-    transition: left 0.08s linear;
 }
 
 /* ── Quality Buttons ── */
 .settings-quality-btns {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     width: 100%;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .settings-quality-btn {
@@ -306,7 +213,7 @@
     border: none;
     cursor: pointer;
     font-family: 'Times New Roman', Times, serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
     text-transform: uppercase;
     position: relative;
@@ -329,29 +236,50 @@
 .settings-quality-btn__label {
     position: relative;
     z-index: 1;
-    color: #8da1a5;
-    text-shadow: 1px 1px 1px #000;
+    color: #a4b9bd;
+    text-shadow: 1px 1px 2px #000;
 }
 
 .settings-quality-btn--active .settings-quality-btn__label {
-    color: #00e5ff;
-    text-shadow: 0 0 6px rgba(0,229,255,0.8);
+    color: #FED700;
+    text-shadow: 0 0 8px rgba(254,215,0,0.7);
 }
 
-/* ── Toggle Rows ── */
+/* ── Toggle Lists (Gameplay Panel) ── */
 .settings-toggle-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 22px;
+    height: 24px;
+}
+
+.settings-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-toggle-icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-toggle-icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .settings-toggle-label {
-    color: #ffea7a;
+    color: #FED700;
     font-size: 13px;
     font-family: 'Times New Roman', Times, serif;
-    text-shadow: 1px 1px 1px #000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
 }
 
 .settings-toggle-btn {
@@ -361,11 +289,6 @@
     background: transparent;
     cursor: pointer;
     padding: 0;
-    transition: transform 0.1s;
-}
-
-.settings-toggle-btn:active {
-    animation: toggleBounce 0.3s both;
 }
 
 .settings-toggle-btn img {
@@ -375,17 +298,19 @@
     display: block;
 }
 
-/* ── Others Buttons ── */
+/* ── Others Row Buttons ── */
 .settings-others-btn {
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 28px;
+    justify-content: space-between;
+    height: 58px;
     border: none;
     cursor: pointer;
     width: 100%;
     position: relative;
     background: transparent;
+    padding: 0 16px;
+    box-sizing: border-box;
     transition: transform 0.1s;
 }
 
@@ -402,30 +327,60 @@
     pointer-events: none;
 }
 
-.settings-others-btn__label {
+.settings-others-btn-content {
     position: relative;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* .settings-others-icon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+.settings-others-btn__label {
     font-size: 11px;
+    text-align: center;
+    margin-left: 30px;
     font-weight: 900;
     text-transform: uppercase;
     font-family: 'Times New Roman', Times, serif;
     text-shadow: 1px 1px 2px #000;
-    letter-spacing: 1px;
-    padding: 0 28px;
+    letter-spacing: 0.5px;
 }
 
-.settings-others-btn--reset .settings-others-btn__label { color: #ff5e5e; }
-.settings-others-btn--help  .settings-others-btn__label { color: #00e5ff; }
+/* .settings-others-arrow {
+    position: relative;
+    z-index: 1;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12px;
+    font-weight: bold;
+} */
 
-/* ── Footer Action Bar ── */
+.settings-others-btn--reset .settings-others-btn__label,
+.settings-others-btn--reset .settings-others-arrow { 
+    color: #ff4a4a; 
+}
+
+.settings-others-btn--help .settings-others-btn__label,
+.settings-others-btn--help .settings-others-arrow { 
+    color: #00e5ff; 
+}
+
 .settings-actions {
     position: absolute;
-    bottom: 12px;
-    left: 48px;
-    right: 48px;
+    bottom: 0px;                  /* Changed from 12px to pull the container layout down */
+    height: 66px;                 /* Matches the bottom spacing area exactly */
+    left: 120px;
+    right: 120px;
     z-index: 5;
     display: flex;
-    align-items: center;
+    align-items: center;          /* Centers buttons and emblem vertically together */
     justify-content: space-between;
     box-sizing: border-box;
 }
@@ -466,16 +421,16 @@
     letter-spacing: 1px;
 }
 
-.settings-action-btn--cancel .settings-action-btn__label { color: #ffbfbf; }
-.settings-action-btn--save   .settings-action-btn__label { color: #ffee7c; }
+.settings-action-btn--cancel .settings-action-btn__label { color: #ffffff; }
+.settings-action-btn--save   .settings-action-btn__label { color: #FED700; }
 
-/* ── Emblem ── */
 .settings-emblem {
     width: 120px;
     height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 0px;           /* Removed the negative margin that pulled it down into the frame */
 }
 
 .settings-emblem img {
