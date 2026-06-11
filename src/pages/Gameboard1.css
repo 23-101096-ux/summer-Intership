@@ -1,0 +1,507 @@
+/* ═══════════════════════════════════════════════
+   GAMEBOARD 1 — Egyptian Expanded Vector Viewport
+   ═══════════════════════════════════════════════ */
+
+   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Open+Sans:wght@700;800&display=swap');
+
+   @keyframes diceFloatAnim {
+     0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 5px rgba(0,229,255,0.4)); }
+     50%      { transform: translateY(-4px); filter: drop-shadow(0 0 12px rgba(0,229,255,0.7)); }
+   }
+   @keyframes diceSpinAnim {
+     0%   { transform: rotate(0deg); }
+     100% { transform: rotate(360deg); }
+   }
+   @keyframes movingTokenBounce {
+     0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+     50%      { transform: translate(-50%, -50%) translateY(-5px); }
+   }
+   
+   .egypt-game-frame {
+     position: relative;
+     width: 852px;
+     height: 393px;
+     min-width: 852px;
+     max-width: 852px;
+     min-height: 393px;
+     max-height: 393px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: space-between;
+     overflow: hidden;
+     font-family: 'Cinzel', serif;
+     background: #041217;
+     box-sizing: border-box;
+     margin: 0 auto;
+     padding-bottom: 12px;
+   }
+   
+   .egypt-game-bg {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     z-index: 0;
+     pointer-events: none;
+   }
+   
+   /* ── HUD Header Styles ── */
+   /* ── HUD header — fixed height, vertically centred ── */
+   .egypt-hud-header {
+     position: relative;
+     z-index: 10;
+     width: 100%;
+     height: 68px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 0 18px;
+     box-sizing: border-box;
+     flex-shrink: 0;
+   }
+
+   /* Left: Level + name */
+   .egypt-hud-level-info {
+     display: flex;
+     flex-direction: column;
+     min-width: 110px;
+   }
+   .egypt-hud-title-level {
+     margin: 0;
+     color: #ffffff;
+     font-size: 15px;
+     font-weight: 700;
+     line-height: 1.2;
+   }
+   .egypt-hud-title-sub {
+     margin: 0;
+     color: #FED700;
+     font-size: 13px;
+     font-weight: 900;
+     letter-spacing: 0.5px;
+     line-height: 1.2;
+   }
+
+
+   .egypt-spirit-energy-container {
+     flex: 1;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 0 4px 0 15px;
+   }
+
+
+   .egypt-spirit-bar-wrap {
+     position: relative;
+     width: 100%;
+     max-width: 420px;
+     height: 102px;
+     display: flex;
+     align-items: center;
+   }
+
+
+   .egypt-spirit-staff-asset {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: fill;
+     z-index: 3;
+     pointer-events: none;
+   }
+
+   /* Layer 2 (mid): timer-empty image — the dark bar/tube inside the staff */
+   .egypt-spirit-timer-asset {
+     position: absolute;
+     left: 14%;
+     right: 14%;
+     top: 50%;
+     transform: translateY(-50%);
+     width: 72%;
+     height: 52%;
+     object-fit: fill;
+     z-index: 2;
+     pointer-events: none;
+   }
+
+   /* Layer 1 (back): cyan fill track */
+   .egypt-spirit-fill-track {
+     position: absolute;
+     left: 18%;
+     right: 18%;
+     top: 50%;
+     transform: translateY(-50%);
+     width: 64%;
+     height: 11px;
+     background: #02080d;
+     border-radius: 3px;
+     overflow: hidden;
+     z-index: 1;
+   }
+   .egypt-spirit-gradient-fill {
+     height: 100%;
+     background: linear-gradient(90deg, #007a96 0%, #00ccee 50%, #00e5ff 75%, #b3f7ff 100%);
+     transition: width 0.45s ease-out;
+     box-shadow: 0 0 10px rgba(0,229,255,0.8);
+   }
+
+   /* Right: counter badge + pause */
+   .egypt-hud-right-controls {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     min-width: 110px;
+     justify-content: flex-end;
+   }
+
+   .egypt-collect-counter-badge {
+     position: relative;
+     width: 52px;
+     height: 28px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background: rgba(4,18,24,0.85);
+     border: 1.5px solid #3a6a7a;
+     border-radius: 5px;
+   }
+   .egypt-badge-bg-asset {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: fill;
+     z-index: 1;
+     border-radius: 5px;
+   }
+   .egypt-badge-text-val {
+     position: relative;
+     z-index: 2;
+     color: #c8eef5;
+     font-size: 12px;
+     font-weight: 900;
+     letter-spacing: 0.5px;
+     text-shadow: 0 0 5px rgba(0,229,255,0.4);
+   }
+   .egypt-pause-nav-button {
+     background: rgba(4,18,24,0.85);
+     border: 2px solid #b8861a;
+     border-radius: 5px;
+     width: 32px;
+     height: 32px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     color: #FED700;
+     font-size: 14px;
+     transition: transform 0.1s, box-shadow 0.1s;
+   }
+   .egypt-pause-nav-button:hover {
+     transform: scale(1.08);
+     box-shadow: 0 0 8px rgba(254,215,0,0.4);
+   }
+   
+   /* ── Board Layout Canvas Viewport ── */
+   .egypt-board-canvas-area {
+     position: relative;
+     z-index: 5;
+     flex: 1;
+     width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 2px 10px;
+     box-sizing: border-box;
+   }
+   .egypt-board-image-wrap {
+     position: relative;
+     width: 740px;
+     height: 260px;
+   }
+   .egypt-board-bg-img {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: fill;
+   }
+   
+   /* ── Chamber Map Overlays ── */
+   .board-overlay-chambers-layer {
+     position: absolute;
+     inset: 0;
+     pointer-events: none;
+     z-index: 2;
+   }
+   
+   .dark-void-mask {
+     position: absolute;
+     background-color: #072142; 
+     border-radius: 2px;
+     box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.85);
+     border: none;
+   }
+   
+   .dark-void-mask.top-right-ankh-chamber {
+     width: 65px;        
+     height: 50px;       
+     left: 58.65%;       
+     top: 9.5%;         
+   }
+   
+   .dark-void-mask.top-left-scarab-chamber {
+     background-color: #412B03;
+     border-radius: 2px;
+     width: 67px;
+     height: 52px;
+     left: 32.5%;
+     top: 8.5%;
+   }
+   
+   .egypt-player-token {
+     z-index: 15; 
+     pointer-events: none;
+     width: 100px; 
+     height: 100px; 
+   }
+   
+   .egypt-player-token.anim-walking {
+     animation: movingTokenBounce 0.22s infinite ease-in-out;
+   }
+   
+   .anubis-token-wrapper {
+     position: relative;
+     width: 100%;
+     height: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+   
+   .anubis-head-graphic {
+     width: 100%;  
+     height: 100%; 
+     object-fit: contain;
+     filter: drop-shadow(0 4px 12px rgba(0, 229, 255, 0.85)) 
+             drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+   }
+   
+   /* ── Dice Operation Base Floating Module ── */
+   .egypt-dice-rolling-terminal {
+     position: absolute; 
+     bottom: 12px;       
+     left: 50%;
+     transform: translateX(-50%); 
+     z-index: 30;        
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     pointer-events: none; 
+   }
+   
+   .egypt-interactive-dice {
+     width: 76px;        
+     height: 76px;       
+     cursor: pointer;
+     pointer-events: auto; 
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     animation: diceFloatAnim 2.5s ease-in-out infinite;
+   }
+   
+   .egypt-interactive-dice img {
+     width: 100%;
+     height: 100%;
+     object-fit: contain;
+     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.7)); 
+   }
+   
+   .egypt-interactive-dice.rolling-anim {
+     animation: diceSpinAnim 0.2s linear infinite;
+   }
+   
+   /* Overlays Configuration */
+   .egypt-screen-modal-overlay {
+     position: absolute;
+     inset: 0;
+     z-index: 100;
+     background: rgba(3,11,14,0.85);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+   .egypt-modal-status-panel {
+     background: #041217;
+     border: 2px solid #c8921a;
+     border-radius: 6px;
+     padding: 14px 28px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 8px;
+   }
+   .egypt-modal-main-header { margin: 0; font-size: 16px; }
+   .egypt-modal-main-header.victory { color: #FED700; }
+   .egypt-modal-sub-details { margin: 0; color: #8ab0b8; font-size: 10px; }
+   .egypt-modal-reset-action-btn {
+     padding: 5px 14px;
+     background: linear-gradient(135deg, #b07818, #FED700, #b07818);
+     border: none;
+     border-radius: 4px;
+     color: #051114;
+     font-size: 11px;
+     font-weight: 900;
+     cursor: pointer;
+   }
+
+
+
+   /* ── INTERACTIVE PAUSE OVERLAY MODAL MODULATOR ── */
+.egypt-pause-screen-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  background: rgba(4, 14, 18, 0.55); /* Dim effect matches screen overlay perfectly */
+  backdrop-filter: blur(1.5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The Game Logo is pulled forward and breaks out above the panel window lip */
+.egypt-pause-logo-header {
+  height: 125px; /* Proportional footprint matching reference imagery scale */
+  object-fit: contain;
+  z-index: 215;
+  margin-bottom: -55px; /* Pulled downward to overlap overlay box lip smoothly */
+  pointer-events: none;
+}
+
+/* Rounded square layout bounding window frame box */
+.egypt-pause-modal-container {
+  position: relative;
+  width: 375px; /* Tailored container width matching image grid box ratios */
+  height: 245px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 205;
+  animation: pauseModalFadeIn 0.22s cubic-bezier(0.1, 0.88, 0.25, 1) forwards;
+}
+
+.egypt-pause-panel-bg-asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+
+.egypt-pause-content-layout {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px; /* Shifts child components down below overlapping logo space */
+  box-sizing: border-box;
+}
+
+.egypt-pause-actions-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px; /* Standard layout spacing blocks between interactive buttons */
+  width: 100%;
+}
+
+/* Nav button wrappers containing underlying slice backgrounds */
+.egypt-pause-action-row-btn {
+  position: relative;
+  width: 236px; /* Matched to width profiles shown in screenshot */
+  height: 38px;  /* Height profile map matching layout lines */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+}
+
+.egypt-pause-action-row-btn:hover {
+  transform: scale(1.03);
+}
+
+.egypt-btn-asset-slice {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+
+/* Text layer placed perfectly over background graphic slices */
+.egypt-btn-label {
+  position: relative;
+  z-index: 3;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px; /* Clear bold navigation typography */
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+}
+
+/* Lower Volume and Music toggle controllers section */
+.egypt-pause-audio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 14px; /* Space buffer beneath panel window bottom margin */
+  z-index: 220;
+}
+
+.egypt-audio-toggle-node {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 44px; /* Matching the circle buttons at bottom center */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+}
+
+.egypt-audio-toggle-node:hover {
+  transform: scale(1.08);
+}
+
+.egypt-audio-toggle-node img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.fallback-ico {
+  font-size: 22px;
+}
+
+
