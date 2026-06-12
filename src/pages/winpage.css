@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@700;900&display=swap');
+
+/* ── Keyframes Vectors ── */
+@keyframes winEntry {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+@keyframes chestPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.02); }
+}
+@keyframes titleGlowFX {
+  0%, 100% { text-shadow: 0 0 8px rgba(254,215,0,0.4), 2px 2px 3px rgba(0,0,0,0.9); }
+  50%      { text-shadow: 0 0 16px rgba(254,215,0,0.7), 2px 2px 3px rgba(0,0,0,0.9); }
+}
+@keyframes sparkUpward {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.4; }
+  100% { transform: translateY(-90px) scale(1.1); opacity: 0; }
+}
+@keyframes btnShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+
+.win-wrapper {
+  position: relative;
+  width: 852px;
+  height: 393px;
+  min-width: 852px;
+  max-width: 852px;
+  min-height: 393px;
+  max-height: 393px;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 auto;
+  background: #041217;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win-bg-graphic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.win-particles-container {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.win-particle-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  animation: sparkUpward 3.2s linear infinite;
+  opacity: 0;
+}
+
+
+.win-top-title-banner {
+  position: absolute;
+  top: 24px; /* Positions it nicely at the absolute top center */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.win-main-headline {
+  margin: 0;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 20px; /* Highly detailed crisp scale */
+  letter-spacing: 3px;
+  color: #FED700;
+  animation: titleGlowFX 3s ease-in-out infinite;
+}
+
+/* ── RE-BALANCED CONTENT CONTAINER ROW MATRIX ── */
+.win-content-container {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 48px 0px 0px; 
+  box-sizing: border-box;
+  animation: winEntry 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+
+.win-character-panel {
+  width: 65%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end; 
+  justify-content: flex-start;
+}
+
+.win-hero-graphic {
+  height: 102%; 
+  width: auto;
+  object-fit: contain;
+  animation: heroFloat 4s ease-in-out infinite;
+  transform-origin: bottom center;
+  margin-bottom: -4px;
+}
+
+/* ── 2. Right Side Column Panel: Clean Vertical Stack Matrix ── */
+.win-reward-action-panel {
+  width: 35%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end; /* Pushes elements down beautifully to account for top header space */
+  gap: 12px; 
+  box-sizing: border-box;
+  padding-bottom: 24px; /* Perfectly positions button near the bottom frame */
+}
+
+/* Image 1: Treasure Chest Viewport Box Frame */
+.win-chest-display-box {
+  width: 230px; 
+  height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win-chest-graphic {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: chestPulse 3.5s ease-in-out infinite;
+}
+
+
+.win-progress-bar-container {
+  width: 190px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win-progress-track-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.win-progress-staff-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 3;
+}
+
+
+.win-progress-gradient {
+  height: 100%;
+  background: linear-gradient(90deg, #0d5d6e 0%, #00e5ff 70%, #b3f7ff 100%);
+  box-shadow: 0 0 6px rgba(0, 229, 255, 0.7);
+}
+
+
+.win-open-action-btn {
+  position: relative;
+  width: 100px !important;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  margin-top: 2px;
+}
+
+/* .win-btn-background-asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+} */
+
+/* .win-btn-shimmer-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: btnShimmer 2.5s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 5px;
+} */
+
+.win-btn-label-text {
+  position: relative;
+  z-index: 3;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #FED700;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.95);
+}
+
+/* ── Video Overlay ── */
+.win-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win-video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.win-video-skip {
+  position: absolute;
+  bottom: 14px;
+  right: 20px;
+  z-index: 210;
+  background: rgba(4, 18, 23, 0.75);
+  border: 1px solid #b8861a;
+  border-radius: 4px;
+  padding: 5px 12px;
+  color: #FED700;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}

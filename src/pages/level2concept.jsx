@@ -61,10 +61,6 @@ const Level2Concept = () => {
             <div className="l2-modal">
 
     
-                <span className="l2-corner l2-corner--tl" />
-                <span className="l2-corner l2-corner--tr" />
-                <span className="l2-corner l2-corner--bl" />
-                <span className="l2-corner l2-corner--br" />
 
                 <button
                     className="l2-close-btn"

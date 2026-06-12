@@ -67,7 +67,7 @@ function GameBoard1() {
 
   useEffect(() => {
     if (collected >= WIN_THRESHOLD) {
-      const t = setTimeout(() => navigate('/victory'), 400);
+      const t = setTimeout(() => navigate('/winpage'), 400);
       return () => clearTimeout(t);
     }
   }, [collected, navigate]);
@@ -129,7 +129,7 @@ function GameBoard1() {
               <div className="egypt-spirit-gradient-fill" style={{ width: `${energyPct}%` }} />
             </div>
             {timerEmptyImg && <img src={timerEmptyImg} className="egypt-spirit-timer-asset" alt="" />}
-            {spiritBarBg && <img src={spiritBarBg} className="egypt-spirit-staff-asset" alt="" />}
+            {/* {spiritBarBg && <img src={spiritBarBg} className="egypt-spirit-staff-asset" alt="" />} */}
           </div>
         </div>
 
@@ -182,11 +182,11 @@ function GameBoard1() {
           {gameLogoImg && <img src={gameLogoImg} className="egypt-pause-logo-header" alt="Neon Nephthys Logo" />}
 
           <div className="egypt-pause-modal-container">
-            {/* The transparent square panel asset serves as the container background layer */}
+
             {pauseMenuBg && <img src={pauseMenuBg} className="egypt-pause-panel-bg-asset" alt="" />}
             
             <div className="egypt-pause-content-layout">
-              {/* Dynamic Action Buttons Group */}
+            
               <div className="egypt-pause-actions-group">
                 <button className="egypt-pause-action-row-btn" onClick={resetGame}>
                   {btnGreenBg && <img src={btnGreenBg} className="egypt-btn-asset-slice" alt="" />}

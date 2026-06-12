@@ -6,7 +6,9 @@ import Level1Concept from "./pages/level1concept";
 import Level2Concept from "./pages/level2concept";
 import Settings from "./pages/settings";
 import GameBoard1 from "./pages/Gameboard1";
-
+import WinPage from "./pages/winpage";
+import Levels2 from "./pages/levels2";
+import GameBoard2 from "./pages/Gameboard2";
 
 const SplashWrapper = () => {
     const navigate = useNavigate();
@@ -26,7 +28,10 @@ const Routess = () => {
                 <Route path="/level1concept" element={<Level1Concept />} />  
                 <Route path="/level2concept" element={<Level2Concept />} />     
                 <Route path="/settings" element={< Settings />} />
-                <Route path="/Gameboard1" element={< GameBoard1 />} />        
+                <Route path="/Gameboard1" element={< GameBoard1 />} /> 
+                <Route path="/winpage" element={< WinPage />} />  
+                <Route path="/levels2" element={< Levels2 />} />
+                <Route path="/Gameboard2" element={< GameBoard2 />} />           
                 
             </Routes>
         </BrowserRouter>
