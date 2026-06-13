@@ -1,369 +1,278 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Open+Sans:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@700&display=swap');
 
-/* ── Mechanical Keyframe Systems ── */
-@keyframes blueLightFlashFX {
-    0% { transform: translate(-50%, -50%) scale(0.8); box-shadow: 0 0 0px rgba(0, 229, 255, 0); filter: brightness(1); }
-    40% { transform: translate(-50%, -50%) scale(1.2); box-shadow: 0 0 35px #00e5ff, 0 0 70px #00e5ff; filter: brightness(2); }
-    100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 10px rgba(0, 229, 255, 0); filter: brightness(0); opacity: 0; }
+/* ── Keyframes ── */
+@keyframes diceFloatAnim {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(0,229,255,0.6)); }
+  50%      { transform: translateY(-4px); filter: drop-shadow(0 0 20px rgba(0,229,255,1)); }
 }
-@keyframes fireCreepGlow {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 8px #FF4D4D); }
-    50% { transform: translate(-50%, -50%) scale(1.1); filter: drop-shadow(0 0 22px #FF8800); }
+@keyframes diceSpinAnim {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
-@keyframes characterBurnFX {
-    0% { filter: cubic-bezier(0.1, 0.8, 0.3, 1) saturate(1); transform: translate(-50%, -50%) scale(1); }
-    50% { filter: sepia(1) hue-rotate(-15deg) saturate(8) brightness(1.8); transform: translate(-50%, -50%) scale(1.15) rotate(10deg); }
-    100% { filter: brightness(0) cubic-bezier(0.1, 0.8, 0.3, 1); transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+@keyframes tokenBounce {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50%      { transform: translate(-50%, -50%) translateY(-6px); }
 }
-@keyframes sideDiceSpin {
-    0% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(0.9); }
-    100% { transform: rotate(360deg) scale(1); }
+@keyframes burnFX {
+  0%   { filter: saturate(1); transform: translate(-50%, -50%) scale(1); }
+  50%  { filter: sepia(1) hue-rotate(-15deg) saturate(8) brightness(1.8); transform: translate(-50%, -50%) scale(1.15) rotate(6deg); box-shadow: 0 0 30px #ff3300; }
+  100% { filter: brightness(0); transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+}
+@keyframes badgePop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+@keyframes overlayIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes screenEntry {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes tileGlow {
+  0%, 100% { box-shadow: inset 0 0 6px rgba(0,229,255,0.2), 0 0 5px rgba(0,229,255,0.1); border-color: rgba(0,229,255,0.4); }
+  50%      { box-shadow: inset 0 0 16px rgba(0,229,255,0.7), 0 0 12px rgba(0,229,255,0.5); border-color: #00e5ff; }
+}
+@keyframes sidePulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6)); }
+  50%      { filter: drop-shadow(0 0 18px rgba(0, 229, 255, 1)); }
 }
 
-/* ── Container Spatial Controls ── */
+/* ══════════════════════════════
+   ROOT — 852×393 Viewport
+   ══════════════════════════════ */
 .l2g-frame {
-    position: relative;
-    width: 852px;
-    height: 393px;
-    min-width: 852px;
-    max-width: 852px;
-    min-height: 393px;
-    max-height: 393px;
-    box-sizing: border-box;
-    overflow: hidden;
-    background: #030a0d;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: row;
+  position: relative;
+  width: 852px; height: 393px;
+  min-width: 852px; max-width: 852px;
+  min-height: 393px; max-height: 393px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  overflow: hidden;
+  font-family: 'Cinzel', serif;
+  background: #041217;
+  box-sizing: border-box;
+  margin: 0 auto;
+  animation: screenEntry 0.5s cubic-bezier(0.22,1,0.36,1) both;
 }
 
 .l2g-bg-layer {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.45;
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; pointer-events: none;
 }
 
-/* ── Upper HUD Panel Layers ── */
+/* ── HUD CONTAINER ── */
 .l2g-hud-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 140px; /* Leave space clean for the right side dock */
-    height: 64px;
-    z-index: 50;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-    pointer-events: none;
+  position: relative; z-index: 10;
+  width: 100%; height: 60px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; box-sizing: border-box;
 }
 
-.l2g-hud-cluster {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    pointer-events: auto;
+.l2g-level-info { display: flex; flex-direction: column; min-width: 120px; }
+.l2g-level-txt  { margin: 0; color: #fff; font-size: 14px; font-weight: 700; line-height: 1.2; }
+.l2g-name-txt   { margin: 0; color: #00e5ff; font-size: 12px; font-weight: 900; letter-spacing: 1px; line-height: 1.2; text-shadow: 0 0 8px rgba(0,229,255,0.6); }
+
+.l2g-spirit-wrap {
+  flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 12px;
+}
+.l2g-spirit-bar {
+  position: relative; width: 100%; max-width: 380px; height: 82px; display: flex; align-items: center;
+}
+.l2g-staff-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; z-index: 3; pointer-events: none;
+}
+.l2g-timer-img {
+  position: absolute; left: 14%; right: 14%; top: 50%; transform: translateY(-50%);
+  width: 72%; height: 52%; object-fit: fill; z-index: 2; pointer-events: none;
+}
+.l2g-fill-track {
+  position: absolute; left: 18%; right: 18%; top: 50%; transform: translateY(-50%);
+  width: 64%; height: 11px; background: #02080d; border-radius: 3px; overflow: hidden; z-index: 1;
+}
+.l2g-fill-bar {
+  height: 100%;
+  background: linear-gradient(90deg,#007a96,#00ccee,#00e5ff,#b3f7ff);
+  transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 0 10px rgba(0,229,255,0.8);
 }
 
-.l2g-pause-trigger-btn {
-    width: 32px;
-    height: 32px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
+.l2g-hud-right { display: flex; align-items: center; gap: 8px; min-width: 110px; justify-content: flex-end; }
+.l2g-badge {
+  position: relative; min-width: 50px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(4,18,24,0.85); border: 1.5px solid #3a6a7a; border-radius: 5px; padding: 0 8px;
 }
-.l2g-pause-trigger-btn img { width: 100%; height: 100%; object-fit: contain; }
+.l2g-badge-bg  { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; z-index: 1; border-radius: 5px; }
+.l2g-badge-txt { position: relative; z-index: 2; color: #c8eef5; font-size: 11px; font-weight: 900; letter-spacing: 0.5px; }
+.l2g-badge.pop .l2g-badge-txt { animation: badgePop 0.35s ease; }
+.l2g-pause-btn {
+  background: rgba(4,18,24,0.85); border: 2px solid #b8861a; border-radius: 5px;
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #FED700; font-size: 13px; transition: transform 0.1s;
+}
+.l2g-pause-btn:hover { transform: scale(1.1); }
+.l2g-pause-btn img { width: 14px; height: 14px; object-fit: contain; }
 
-.l2g-badge-counter {
-    width: 140px;
-    height: 34px;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 14px;
-}
-
-.l2g-counter-title {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 8px;
-    font-weight: 800;
-    color: #8AB0B8;
-    letter-spacing: 0.5px;
-}
-.l2g-counter-value {
-    font-family: 'Cinzel', serif;
-    font-size: 14px;
-    font-weight: 900;
-    margin-top: -2px;
-}
-.text-teal-glow { color: #00e5ff; text-shadow: 0 0 6px rgba(0, 229, 255, 0.8); }
-
-.l2g-chapter-label-frame {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-.l2g-chapter-txt-main {
-    font-family: 'Cinzel', serif;
-    font-weight: 900;
-    font-size: 13px;
-    color: #D8A43A;
-    letter-spacing: 1.5px;
-}
-.l2g-chapter-txt-sub {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    color: #8AB0B8;
+/* ── BOARD SYSTEM CONTAINER ── */
+.l2g-board-area {
+  position: relative; z-index: 5;
+  flex: 1; width: 100%;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 0 10px 6px; box-sizing: border-box;
 }
 
-/* ── Main Path Map Viewport Floor ── */
-.l2g-viewport-board {
-    position: relative;
-    width: 712px;
-    height: 100%;
-    z-index: 10;
+.l2g-board-container-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 740px;
+  height: 100%;
 }
 
-.l2g-vector-path-track {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0.85;
+.l2g-board-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill;
+}
+.l2g-board-fallback {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg,#1a0e00,#2a1800,#1a0e00);
+  border: 3px solid #c8921a; border-radius: 8px;
 }
 
-/* ── Step Node Entities Matrix ── */
-.l2g-map-item-node {
-    position: absolute;
-    width: 38px;
-    height: 38px;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
-    transition: opacity 0.4s ease;
+/* ── Side Wings ── */
+.l2g-wing-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 66px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+.l2g-wing-container--left { left: -28px; }
+.l2g-wing-container--right { right: -28px; }
+
+/* ── Dice Style ── */
+.l2g-integrated-dice {
+  width: 100%; height: 100%;
+  cursor: pointer; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  animation: diceFloatAnim 2.5s ease-in-out infinite;
+}
+.l2g-integrated-dice:hover { transform: scale(1.1); }
+.l2g-dice-gfx {
+  width: 100%; height: 100%; object-fit: contain;
+  animation: sidePulseGlow 2s ease-in-out infinite;
+}
+.l2g-integrated-dice.rolling {
+  animation: diceSpinAnim 0.2s linear infinite;
+  cursor: not-allowed;
 }
 
-.l2g-item-asset-pic {
-    width: 85%;
-    height: 85%;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+.l2g-integrated-avatar-holder {
+  width: 100%; height: 100%;
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+}
+.l2g-fallback-emoji {
+  font-size: 24px;
+  animation: sidePulseGlow 2.5s ease-in-out infinite;
 }
 
-/* Custom Interactive Blue Glow Flash Style System */
-.l2g-map-item-node.trigger-blue-glow {
-    animation: blueLightFlashFX 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    border-radius: 50%;
+/* ── Grid Overlay ── */
+.l2g-grid {
+  position: absolute;
+  top: 4%; left: 3%; right: 3%; bottom: 4%;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+.l2g-tile {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  box-sizing: border-box;
+}
+.l2g-tile--active {
+  /* background: rgba(0,229,255,0.08); */
+  border-radius: 4px;
+  /* animation: tileGlow 1s ease-in-out infinite; */
+  z-index: 3;
 }
 
-.l2g-map-item-node.fade-out-vanish {
-    opacity: 0;
-    pointer-events: none;
+/* ── Token Entity ── */
+.l2g-token {
+  position: absolute;
+  width: 15%; aspect-ratio: 0.85 / 1;
+  pointer-events: none; z-index: 20;
+  transform: translate(-50%, -50%);
+  transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1), top 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  filter: drop-shadow(0 4px 10px rgba(0,229,255,0.7));
 }
+.l2g-token img { width: 100%; height: 100%; object-fit: contain; }
+.l2g-token.walking { animation: tokenBounce 0.3s ease-in-out infinite; }
+.l2g-token.burning { animation: burnFX 1.2s ease forwards; }
 
-/* ── Fire Tracker & Danger Assets ── */
-.l2g-fire-tracker-node {
-    position: absolute;
-    width: 54px;
-    height: 54px;
-    transform: translate(-50%, -50%);
-    z-index: 25;
-    animation: fireCreepGlow 2s ease-in-out infinite;
+/* ── INTERFACE OVERLAYS ── */
+.l2g-overlay {
+  position: absolute; inset: 0; z-index: 100;
+  background: rgba(2,8,12,0.88);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
 }
-.l2g-fire-tracker-node img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+.l2g-panel {
+  background: linear-gradient(160deg,#12060a,#080312);
+  border: 2px solid #FF4D4D; border-radius: 12px;
+  padding: 24px 44px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  animation: overlayIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
+  box-shadow: 0 0 50px rgba(0,0,0,0.9), 0 0 30px rgba(255,60,60,0.2);
 }
+.l2g-panel-title { margin: 0; font-family: 'Cinzel Decorative',serif; font-size: 22px; font-weight: 700; letter-spacing: 3px; color: #FF4D4D; text-shadow: 0 0 18px rgba(255,60,60,0.5); }
+.l2g-panel-sub   { margin: 0; color: #8ab0b8; font-size: 12px; letter-spacing: 1px; text-align: center; line-height: 1.6; }
+.l2g-panel-btns  { display: flex; gap: 12px; margin-top: 4px; }
+.l2g-panel-btn {
+  padding: 9px 24px; border: none; border-radius: 6px;
+  font-family: 'Cinzel',serif; font-size: 11px; font-weight: 900; letter-spacing: 1.5px;
+  cursor: pointer; text-transform: uppercase; transition: transform 0.12s;
+}
+.l2g-panel-btn:hover { transform: scale(1.06); }
+.l2g-panel-btn--gold { background: linear-gradient(135deg,#b07818,#FED700,#b07818); color: #061014; }
+.l2g-panel-btn--red  { background: rgba(255,77,77,0.12); border: 1px solid #FF4D4D; color: #FF4D4D; }
 
-.l2g-static-fire-wall {
-    width: 40px;
-    height: 60px;
-    background: linear-gradient(to top, transparent, #FF4D4D, #FED700);
-    filter: blur(4px) drop-shadow(0 0 10px #FF4D4D);
-    opacity: 0.8;
+.l2g-pause-overlay {
+  position: absolute; inset: 0; z-index: 200;
+  background: rgba(2,8,12,0.85); backdrop-filter: blur(3px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-
-/* ── Character Player Token Node ── */
-.l2g-player-token-avatar {
-    position: absolute;
-    width: 46px;
-    height: 46px;
-    transform: translate(-50%, -50%);
-    z-index: 30;
-    transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1), top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+.l2g-pause-logo  { height: 110px; object-fit: contain; z-index: 210; margin-bottom: -46px; pointer-events: none; }
+.l2g-pause-modal {
+  position: relative; width: 360px; height: 235px;
+  display: flex; align-items: center; justify-content: center; z-index: 205;
+  animation: overlayIn 0.25s cubic-bezier(0.22,1,0.36,1) both;
 }
-.l2g-player-token-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
+.l2g-pause-modal-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; z-index: 1; }
+.l2g-pause-content {
+  position: relative; z-index: 5;
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding-top: 38px; box-sizing: border-box; gap: 10px;
 }
-
-/* Triggered on fire touch impact state sequence */
-.l2g-player-token-avatar.burning-impact-state {
-    animation: characterBurnFX 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.l2g-pause-btn-row {
+  position: relative; width: 224px; height: 36px;
+  background: none; border: none; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: transform 0.1s;
 }
-
-/* ── REPOSITIONED SIDE CONTROL PANEL DOCK ── */
-.l2g-side-dice-terminal {
-    width: 140px;
-    height: 100%;
-    background: linear-gradient(180deg, #04141a 0%, #02090d 100%);
-    border-left: 2px solid #D8A43A;
-    box-sizing: border-box;
-    z-index: 40;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.l2g-terminal-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-}
-
-.l2g-dice-panel-heading {
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    font-weight: 900;
-    color: #8AB0B8;
-    letter-spacing: 1px;
-    text-align: center;
-}
-
-.l2g-interactive-dice-cube {
-    width: 58px;
-    height: 58px;
-    background: rgba(5, 25, 33, 0.85);
-    border: 2px solid #D8A43A;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 0 10px rgba(216, 164, 58, 0.2);
-    transition: transform 0.1s ease;
-}
-.l2g-interactive-dice-cube:active { transform: scale(0.95); }
-
-.l2g-interactive-dice-cube img {
-    width: 75%;
-    height: 75%;
-    object-fit: contain;
-}
-
-.rolling-cube-anim {
-    animation: sideDiceSpin 0.5s linear infinite;
-}
-
-.l2g-fallback-dice-box {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: #FED700;
-}
-
-.l2g-dice-hint-string {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 8px;
-    font-weight: 700;
-    color: rgba(138, 176, 184, 0.6);
-    letter-spacing: 0.5px;
-}
-
-/* ── MODAL EXIT GAME OVERLAY INTERFACE SHIELDS ── */
-.l2g-modal-overlay-screen-shield {
-    position: absolute;
-    inset: 0;
-    z-index: 100;
-    background: rgba(3, 11, 14, 0.88);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.l2g-status-panel-window {
-    background: #041217;
-    border: 2px solid #FF4D4D; /* Menacing Crimson Border to highlight danger defeat state */
-    border-radius: 12px;
-    padding: 20px 24px;
-    width: 360px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-}
-
-.l2g-status-header-text {
-    font-family: 'Cinzel', serif;
-    font-weight: 900;
-    font-size: 20px;
-    margin: 0;
-    letter-spacing: 2px;
-}
-.title-crimson-burn { color: #FF4D4D; text-shadow: 0 0 10px rgba(255, 77, 77, 0.4); }
-
-.l2g-status-body-details {
-    font-family: 'Open Sans', sans-serif;
-    color: #8AB0B8;
-    font-size: 11px;
-    line-height: 1.5;
-    margin: 0;
-}
-
-.l2g-action-button-group-row {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    width: 100%;
-    margin-top: 6px;
-}
-
-.l2g-modal-action-trigger {
-    flex: 1;
-    padding: 8px 0;
-    border: none;
-    border-radius: 6px;
-    font-family: 'Cinzel', serif;
-    font-weight: 900;
-    font-size: 11px;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-}
-.l2g-modal-action-trigger:hover { transform: scale(1.02); }
-
-.btn-restyle-gold {
-    background: linear-gradient(135deg, #b07818, #FED700, #b07818);
-    color: #051114;
-}
-.btn-restyle-red {
-    background: rgba(255, 77, 77, 0.15);
-    border: 1px solid #FF4D4D;
-    color: #FF4D4D;
-}
-
-.animate-fade-in {
-    animation: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) both;
-}
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+.l2g-pause-btn-row:hover { transform: scale(1.04); }
+.l2g-pause-btn-bg    { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; z-index: 1; }
+.l2g-pause-btn-label { position: relative; z-index: 2; color: #fff; font-family: 'Cinzel',serif; font-size: 12px; font-weight: 900; letter-spacing: 0.6px; text-shadow: 0 1px 4px rgba(0,0,0,0.85); }
+.l2g-pause-audio { display: flex; gap: 18px; margin-top: 12px; z-index: 220; }
+.l2g-audio-btn   { background: none; border: none; padding: 0; cursor: pointer; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
+.l2g-audio-btn:hover { transform: scale(1.1); }
+.l2g-audio-btn img { width: 100%; height: 100%; object-fit: contain; }

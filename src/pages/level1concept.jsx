@@ -100,7 +100,7 @@ const Level1Concept = () => {
                     <div className="level-modal__action">
                         <button
                             className="level-modal__start-btn"
-                            onClick={() => navigate('/game-play-screen')}
+                            onClick={() => navigate('/Gameboard1')}
                             style={{ backgroundImage: `url(${startBtnImg})` }}
                         >
                             START LEVEL

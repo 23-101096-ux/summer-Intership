@@ -47,11 +47,11 @@ export default function WinPage() {
   }, [showVideo, navigate]);
 
   const handleVideoEnd = () => {
-    navigate('/gameboard2');
+    navigate('/levels2');
   };
 
   const handleSkip = () => {
-    navigate('/gameboard2');
+    navigate('/levels2');
   };
 
   return (

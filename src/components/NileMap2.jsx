@@ -5,7 +5,7 @@ import mapBg    from '../assets/Group35.png';
 import chest1   from '../assets/chest1.png';
 import chest2   from '../assets/chest2.png';
 import eyeRa    from '../assets/eye.png';
-import lock     from '../assets/lock.png';
+
 
 import './NileMap.css';
 

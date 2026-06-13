@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Open+Sans:wght@800&display=swap');
+
+/* Entry animation for the UI container window */
+@keyframes losePanelPopIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Base Viewport Constraints exactly matching Gameboard sizes */
+.egypt-lose-viewport {
+  position: relative;
+  width: 852px;
+  height: 393px;
+  min-width: 852px;
+  max-width: 852px;
+  min-height: 393px;
+  max-height: 393px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #041217;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+/* Outer Global Background image layer */
+.egypt-lose-screen-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Main UI Frame window containing layout bounding ratios from Screenshot 2026-06-13 at 5.50.48 PM.jpg */
+.egypt-lose-panel-container {
+  position: relative;
+  width: 790px;
+  height: 350px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: losePanelPopIn 0.35s cubic-bezier(0.15, 0.88, 0.3, 1) forwards;
+}
+
+/* Stone container layout frame graphic slice background */
+.egypt-lose-panel-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Interactive Alignment Canvas Overlay Layer */
+.egypt-lose-content-canvas {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 30px 18px 30px;
+  box-sizing: border-box;
+}
+
+/* Red Threat Header Text */
+.egypt-lose-headline {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: #E60000;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(230, 0, 0, 0.3);
+  z-index: 20;
+}
+
+/* Middle Content Splitting Row (Character on Left, Vortex on Right) */
+.egypt-lose-visuals-row {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* Left Character Position block */
+.egypt-lose-character-wrapper {
+  position: absolute;
+  left: 35px;
+  bottom: 12px;
+  width: 250px;
+  height: 290px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.egypt-lose-character-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Right Sandstorm vortex image position block */
+.egypt-lose-vortex-wrapper {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  width: 380px;
+  height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.egypt-lose-sandstorm-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Action button area container layout alignment */
+.egypt-lose-actions-area {
+  position: relative;
+  z-index: 25;
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 6px;
+}
+
+/* Red Level Reset Button Frame Box configuration mapping */
+.egypt-lose-retry-btn {
+  position: relative;
+  width: 260px;
+  height: 42px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+}
+
+.egypt-lose-retry-btn:hover {
+  transform: scale(1.04);
+}
+
+.egypt-lose-retry-btn:active {
+  transform: scale(0.98);
+}
+
+/* Underlying Red Image Slice Background Asset */
+.egypt-lose-btn-slice-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+
+/* Bold Typography text layout mapped over button slice graphics */
+.egypt-lose-btn-text-label {
+  position: relative;
+  z-index: 5;
+  color: #FFFFFF;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+}

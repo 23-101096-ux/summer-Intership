@@ -2,242 +2,245 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Gameboard2.css';
 
-// ── Asset Safe Imports ────────────────────────────────────────────────────────
-let bgImg         = null;
-let boardPathImg  = null;
-let tokenImg      = null;
-let fireMonsterImg= null;
-let pauseIconImg  = null;
-let counterBg     = null;
-
-let ankhIcon      = null;
-let lotusIcon     = null;
-let lockIcon      = null;
-
+// ── Safe asset imports ────────────────────────────────────────────────────────
+let bgImg=null, boardImg=null, tokenImg=null;
+let pauseIconImg=null, counterBg=null, spiritBarBg=null, timerEmptyImg=null;
 let dice1=null, dice2=null, dice3=null, dice4=null, dice5=null, dice6=null;
-let defeatPanelBg = null;
+let pauseMenuBg=null, gameLogoImg=null, btnGreenBg=null, btnGoldBg=null, btnRedBg=null;
+let soundOnIcon=null, musicOnIcon=null;
 
-try { bgImg          = require('../assets/bg.png');               } catch(_) {}
-try { boardPathImg   = require('../assets/Group 40.png');         } catch(_) {} // Level 2 structural track vector
-try { tokenImg       = require('../assets/goldencharecter2.png'); } catch(_) {}
-try { fireMonsterImg = require('../assets/fire.png');              } catch(_) {}
-try { pauseIconImg   = require('../assets/pause-btn.png');        } catch(_) {}
-try { counterBg      = require('../assets/counter-badge-bg.png'); } catch(_) {}
-try { ankhIcon       = require('../assets/yellowmoftah.png');     } catch(_) {}
-try { lotusIcon      = require('../assets/warda.png');            } catch(_) {}
-try { lockIcon       = require('../assets/bluelock.png');         } catch(_) {}
+try { bgImg        = require('../assets/bg.png');               } catch(_) {}
+try { boardImg     = require('../assets/board-level2.png');     } catch(_) {}
+try { tokenImg     = require('../assets/anubis.png');           } catch(_) {}
+try { pauseIconImg = require('../assets/pause-btn.png');        } catch(_) {}
+try { counterBg    = require('../assets/counter-badge-bg.png'); } catch(_) {}
+try { timerEmptyImg= require('../assets/timer-empty.png');      } catch(_) {}
+try { dice1        = require('../assets/dice-1.png');           } catch(_) {}
+try { dice2        = require('../assets/dice-2.png');           } catch(_) {}
+try { dice3        = require('../assets/dice-3.png');           } catch(_) {}
+try { dice4        = require('../assets/dice-4.png');           } catch(_) {}
+try { dice5        = require('../assets/dice-5.png');           } catch(_) {}
+try { dice6        = require('../assets/dice-6.png');           } catch(_) {}
+try { pauseMenuBg  = require('../assets/pause-menu-panel.png'); } catch(_) {}
+try { gameLogoImg  = require('../assets/game-logo.png');        } catch(_) {}
+try { btnGreenBg   = require('../assets/btn-green.png');        } catch(_) {}
+try { btnGoldBg    = require('../assets/btn-golddd.png');       } catch(_) {}
+try { btnRedBg     = require('../assets/btn-red.png');          } catch(_) {}
+try { soundOnIcon  = require('../assets/sound-toggle.png');     } catch(_) {}
+try { musicOnIcon  = require('../assets/music-toggle.png');     } catch(_) {}
 
-try { dice1          = require('../assets/dice-1.png');           } catch(_) {}
-try { dice2          = require('../assets/dice-2.png');           } catch(_) {}
-try { dice3          = require('../assets/dice-3.png');           } catch(_) {}
-try { dice4          = require('../assets/dice-4.png');           } catch(_) {}
-try { dice5          = require('../assets/dice-5.png');           } catch(_) {}
-try { dice6          = require('../assets/dice-6.png');           } catch(_) {}
+const DICE_IMGS = [null, dice1, dice2, dice3, dice4, dice5, dice6];
 
-const DICE_IMGS = { 1: dice1, 2: dice2, 3: dice3, 4: dice4, 5: dice5, 6: dice6 };
-
-// 12 Exact Node Positions Mapping Level 2 Path Steps Visually From Your Screenshots
-const PATH_STEPS = [
-    { x: 110, y: 280, item: null },
-    { x: 180, y: 260, item: 'ankh' },
-    { x: 260, y: 230, item: null },
-    { x: 310, y: 160, item: 'lotus' },
-    { x: 380, y: 120, item: null },
-    { x: 460, y: 150, item: 'lock' },
-    { x: 530, y: 200, item: null },
-    { x: 610, y: 250, item: 'ankh' },
-    { x: 680, y: 220, item: null },
-    { x: 740, y: 160, item: 'lotus' },
-    { x: 780, y: 110, item: 'fire_trap' }, // The inevitable doom trap tile layout node
+// ── Strict 6x3 Logical Calibration Grid Mapping ──
+const BOARD_LAYOUT = [
+  { row:0, col:0 }, { row:0, col:1 }, { row:0, col:2 }, { row:0, col:3 }, { row:0, col:4 }, { row:0, col:5 },
+  { row:1, col:0 }, { row:1, col:1 }, { row:1, col:2 }, { row:1, col:3 }, { row:1, col:4 }, { row:1, col:5 },
+  { row:2, col:0 }, { row:2, col:1 }, { row:2, col:2 }, { row:2, col:3 }, { row:2, col:4 }, { row:2, col:5 }
 ];
 
-const GameBoard2 = () => {
-    const navigate = useNavigate();
-    
-    // Core Game Mechanics State Matrix
-    const [playerIndex, setPlayerIndex] = useState(0);
-    const [fireIndex, setFireIndex] = useState(-2); // Fire starts behind tracking the path steps
-    const [collectedCount, setCollectedCount] = useState(0);
-    const [activeGlowTile, setActiveGlowTile] = useState(null);
-    const [collectedItems, setCollectedItems] = useState({}); // Tracking vanished assets
-    
-    const [diceVal, setDiceVal] = useState(1);
-    const [isRolling, setIsRolling] = useState(false);
-    const [gameState, setGameState] = useState('active'); // active, losing_anim, defeated
-    const [isPauseActive, setIsPauseActive] = useState(false);
+// ── EXTENDED WALK PATH TRACKING SEQUENCE ──
+const WALK_PATH = [
+  11, 5, 4, 3, 2, 1, 0, 6, 12, 13, 7, 8, 9, 10, 14
+];
 
-    // Dynamic collection light flashing mechanics
-    const triggerCollectionGlow = (index, itemName) => {
-        setActiveGlowTile(index);
-        setCollectedCount(prev => prev + 1);
+export default function GameBoard2() {
+  const navigate = useNavigate();
+
+  const [diceVal, setDiceVal] = useState(1);
+  const [isRolling, setIsRolling] = useState(false);
+  const [tokenStep, setTokenStep] = useState(0); 
+  const [relicCount, setRelicCount] = useState(0);
+  const [gameState, setGameState] = useState('active'); 
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const tokenRef = useRef(0);
+  const isAnimRef = useRef(false);
+  const gameRef = useRef('active');
+  const pauseRef = useRef(false);
+
+  useEffect(() => { tokenRef.current = tokenStep; }, [tokenStep]);
+  useEffect(() => { isAnimRef.current = isAnimating; }, [isAnimating]);
+  useEffect(() => { gameRef.current = gameState; }, [gameState]);
+  useEffect(() => { pauseRef.current = isPaused; }, [isPaused]);
+
+  const moveCharacter = useCallback((steps) => {
+    isAnimRef.current = true;
+    setIsAnimating(true);
+    let currentMoveCount = 0;
+
+    const tick = () => {
+      if (pauseRef.current) {
+        setTimeout(tick, 200);
+        return;
+      }
+
+      const next = Math.min(tokenRef.current + 1, WALK_PATH.length - 1);
+      currentMoveCount++;
+      tokenRef.current = next;
+      setTokenStep(next);
+
+      if (next >= 4 && tokenRef.current < 14) {
+        setRelicCount(1);
+      }
+
+      // If character reaches the loss tile, play animation then redirect to losepage
+      if (next === WALK_PATH.length - 1) {
+        setGameState('failed');
+        setIsAnimating(false);
+        isAnimRef.current = false;
         
-        // Let item safely disappear with blue energy trail frame timing
+        // Wait 1200ms for the token's burnFX animation to finish before changing routes
         setTimeout(() => {
-            setCollectedItems(prev => ({ ...prev, [index]: true }));
-            setActiveGlowTile(null);
-        }, 800);
+          navigate('/losepage');
+        }, 1200);
+        return;
+      }
+
+      if (currentMoveCount < steps && next < WALK_PATH.length - 1) {
+        setTimeout(tick, 320);
+      } else {
+        setIsAnimating(false);
+        isAnimRef.current = false;
+      }
     };
 
-    const triggerDiceRoll = () => {
-        if (isRolling || gameState !== 'active') return;
+    setTimeout(tick, 320);
+  }, [navigate]);
 
-        setIsRolling(true);
-        let ticks = 0;
-        const interval = setInterval(() => {
-            setDiceVal(Math.floor(Math.random() * 3) + 1); // Controlled steps to enjoy the chase sequences
-            ticks++;
-            if (ticks >= 8) {
-                clearInterval(interval);
-                
-                // Absolute final calculated steps
-                const finalRoll = Math.floor(Math.random() * 2) + 1;
-                setDiceVal(finalRoll);
-                setIsRolling(false);
+  const triggerDiceRoll = () => {
+    if (isRolling || isAnimRef.current || gameRef.current !== 'active' || pauseRef.current) return;
+    setIsRolling(true);
+    let rollTicks = 0;
+    
+    const interval = setInterval(() => {
+      setDiceVal(Math.floor(Math.random() * 6) + 1);
+      rollTicks++;
+      if (rollTicks >= 8) {
+        clearInterval(interval);
+        const finalRoll = Math.floor(Math.random() * 6) + 1;
+        setDiceVal(finalRoll);
+        setIsRolling(false);
+        moveCharacter(finalRoll);
+      }
+    }, 80);
+  };
 
-                // Calculate next positional grid leap
-                setPlayerIndex(prev => {
-                    const nextPos = Math.min(prev + finalRoll, PATH_STEPS.length - 1);
-                    
-                    // Fire tracks forward right behind player's velocity vectors
-                    setFireIndex(prevFire => Math.min(prevFire + 1, nextPos));
+  const resetGame = () => {
+    setDiceVal(1);
+    setIsRolling(false);
+    setTokenStep(0);
+    setRelicCount(0);
+    setGameState('active');
+    setIsAnimating(false);
+    setIsPaused(false);
+    tokenRef.current = 0;
+    isAnimRef.current = false;
+    gameRef.current = 'active';
+  };
 
-                    // Evaluate Tile Land Event Conditions
-                    const targetTile = PATH_STEPS[nextPos];
-                    if (targetTile.item && !collectedItems[nextPos] && targetTile.item !== 'fire_trap') {
-                        triggerCollectionGlow(nextPos, targetTile.item);
-                    }
+  const currentLayoutIndex = WALK_PATH[tokenStep];
+  const activeTile = BOARD_LAYOUT[currentLayoutIndex] || { row: 1, col: 5 };
 
-                    // SCRIPTED LOSE MECHANIC: Touch Wall / Reach Destination Fire Trap Node
-                    if (nextPos >= PATH_STEPS.length - 1 || nextPos <= fireIndex + 1) {
-                        setGameState('losing_anim');
-                        setTimeout(() => {
-                            setGameState('defeated');
-                        }, 1200);
-                    }
+  const computedLeft = `${(activeTile.col * 16.666) + 8.333}%`;
+  const computedTop = `${(activeTile.row * 33.333) + 16.666}%`;
 
-                    return nextPos;
-                });
-            }
-        }, 80);
-    };
+  return (
+    <div className="l2g-frame">
+      {bgImg && <img src={bgImg} className="l2g-bg-layer" alt="" />}
 
-    const resetLevel = () => {
-        setPlayerIndex(0);
-        setFireIndex(-2);
-        setCollectedCount(0);
-        setCollectedItems({});
-        setActiveGlowTile(null);
-        setGameState('active');
-    };
-
-    const playerPos = PATH_STEPS[playerIndex];
-    const firePos = PATH_STEPS[Math.max(0, fireIndex)];
-
-    return (
-        <div className="l2g-frame">
-            {bgImg && <img src={bgImg} className="l2g-bg-layer" alt="" />}
-
-            {/* ── UPPER STATS HUD BANNER LAYER ── */}
-            <header className="l2g-hud-header">
-                <div className="l2g-hud-cluster">
-                    <button className="l2g-pause-trigger-btn" onClick={() => setIsPauseActive(true)}>
-                        {pauseIconImg ? <img src={pauseIconImg} alt="Pause" /> : <span>⏸</span>}
-                    </button>
-                    
-                    <div className="l2g-badge-counter" style={{ backgroundImage: `url(${counterBg})` }}>
-                        <span className="l2g-counter-title">RELICS SECURED</span>
-                        <span className="l2g-counter-value text-teal-glow">{collectedCount}</span>
-                    </div>
-                </div>
-
-                <div className="l2g-chapter-label-frame">
-                    <span className="l2g-chapter-txt-main">VALLEY OF THE KINGS</span>
-                    <span className="l2g-chapter-txt-sub">ESCAPE THE FLAMES</span>
-                </div>
-            </header>
-
-            {/* ── CORE TRACK MAP BOARD CONTAINER VIEW ── */}
-            <main className="l2g-viewport-board">
-                {boardPathImg && <img src={boardPathImg} className="l2g-vector-path-track" alt="" />}
-
-                {/* Render Path Steps & Interactive Relics */}
-                {PATH_STEPS.map((step, idx) => {
-                    if (!step.item) return null;
-                    const isVanished = collectedItems[idx];
-                    const hasActiveGlow = activeGlowTile === idx;
-
-                    return (
-                        <div 
-                            key={idx}
-                            className={`l2g-map-item-node ${hasActiveGlow ? 'trigger-blue-glow' : ''} ${isVanished ? 'fade-out-vanish' : ''}`}
-                            style={{ left: `${step.x}px`, top: `${step.y}px` }}
-                        >
-                            {step.item === 'ankh' && ankhIcon && <img src={ankhIcon} className="l2g-item-asset-pic" alt="" />}
-                            {step.item === 'lotus' && lotusIcon && <img src={lotusIcon} className="l2g-item-asset-pic" alt="" />}
-                            {step.item === 'lock' && lockIcon && <img src={lockIcon} className="l2g-item-asset-pic" alt="" />}
-                            {step.item === 'fire_trap' && <div className="l2g-static-fire-wall" />}
-                        </div>
-                    );
-                })}
-
-                {/* Fire Chaser Element Node */}
-                {fireIndex >= 0 && (
-                    <div 
-                        className="l2g-fire-tracker-node"
-                        style={{ left: `${firePos.x}px`, top: `${firePos.y}px` }}
-                    >
-                        {fireMonsterImg ? <img src={fireMonsterImg} alt="Creeping Fire" /> : <div className="fallback-fire" />}
-                    </div>
-                )}
-
-                {/* Character Player Token */}
-                <div 
-                    className={`l2g-player-token-avatar ${gameState === 'losing_anim' ? 'burning-impact-state' : ''}`}
-                    style={{ left: `${playerPos.x}px`, top: `${playerPos.y}px` }}
-                >
-                    {tokenImg ? <img src={tokenImg} alt="Player Character" /> : <div className="fallback-token" />}
-                </div>
-            </main>
-
-            {/* ── RIGHT DOCK REPOSITIONED DICE CONTROL BAR ── */}
-            <aside className="l2g-side-dice-terminal">
-                <div className="l2g-terminal-inner">
-                    <span className="l2g-dice-panel-heading">ROLL TO RUN</span>
-                    <div 
-                        className={`l2g-interactive-dice-cube ${isRolling ? 'rolling-cube-anim' : ''}`}
-                        onClick={triggerDiceRoll}
-                    >
-                        {DICE_IMGS[diceVal] ? (
-                            <img src={DICE_IMGS[diceVal]} alt={`Dice ${diceVal}`} />
-                        ) : (
-                            <div className="l2g-fallback-dice-box">{diceVal}</div>
-                        )}
-                    </div>
-                    <span className="l2g-dice-hint-string">TAP CUBE</span>
-                </div>
-            </aside>
-
-            {/* ── DEFEATED INESCAPABLE LOSE OVERLAY VIEW SCREEN ── */}
-            {gameState === 'defeated' && (
-                <div className="l2g-modal-overlay-screen-shield animate-fade-in">
-                    <div className="l2g-status-panel-window">
-                        <h3 className="l2g-status-header-text title-crimson-burn">💀 DEFEATED</h3>
-                        <p className="l2g-status-body-details">
-                            The raging fire caught you! You managed to rescue {collectedCount} valley relics before turning to ash.
-                        </p>
-                        <div className="l2g-action-button-group-row">
-                            <button className="l2g-modal-action-trigger btn-restyle-gold" onClick={resetLevel}>
-                                TRY AGAIN
-                            </button>
-                            <button className="l2g-modal-action-trigger btn-restyle-red" onClick={() => navigate('/gameboard1')}>
-                                BACK TO LEVEL 1
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+      {/* ── HUD HEADER ── */}
+      <header className="l2g-hud-header">
+        <div className="l2g-level-info">
+          <p className="l2g-level-txt">LEVEL 2</p>
+          <p className="l2g-name-txt">ANUBIS'S TOMB</p>
         </div>
-    );
-};
 
-export default GameBoard2;
+        <div className="l2g-spirit-wrap">
+          <div className="l2g-spirit-bar">
+            {timerEmptyImg && <img src={timerEmptyImg} className="l2g-timer-img" alt="" />}
+            <div className="l2g-fill-track">
+              <div className="l2g-fill-bar" style={{ width: relicCount > 0 ? '50%' : '0%' }}></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="l2g-hud-right">
+          <div className={`l2g-badge ${relicCount > 0 ? 'pop' : ''}`}>
+            {counterBg && <img src={counterBg} className="l2g-badge-bg" alt="" />}
+            <span className="l2g-badge-txt">{relicCount}/2</span>
+          </div>
+          <button className="l2g-pause-btn" onClick={() => setIsPaused(true)}>
+            {pauseIconImg ? <img src={pauseIconImg} alt="Pause" /> : '⏸'}
+          </button>
+        </div>
+      </header>
+
+      {/* ── BOARD SYSTEM ── */}
+      <main className="l2g-board-area">
+        <div className="l2g-board-container-wrapper">
+          {boardImg ? <img src={boardImg} className="l2g-board-img" alt="Level 2 Map" /> : <div className="l2g-board-fallback" />}
+
+          <div className="l2g-wing-container l2g-wing-container--left">
+            <div className={`l2g-integrated-dice ${isRolling ? 'rolling' : ''}`} onClick={triggerDiceRoll}>
+              {DICE_IMGS[diceVal] ? <img src={DICE_IMGS[diceVal]} className="l2g-dice-gfx" alt="" /> : <span className="l2g-fallback-emoji">🎲</span>}
+            </div>
+          </div>
+
+          <div className="l2g-wing-container l2g-wing-container--right">
+            <div className="l2g-integrated-avatar-holder" />
+          </div>
+
+          <div className="l2g-grid">
+            {BOARD_LAYOUT.map((tile, i) => {
+              const isTokenHere = currentLayoutIndex === i;
+              return (
+                <div key={i} className={`l2g-tile ${isTokenHere ? 'l2g-tile--active' : ''}`} />
+              );
+            })}
+          </div>
+
+          {/* ── Animated Token Entity ── */}
+          <div 
+            className={`l2g-token ${isAnimating ? 'walking' : ''} ${gameState === 'failed' ? 'burning' : ''}`}
+            style={{ left: computedLeft, top: computedTop }}
+          >
+            {tokenImg ? <img src={tokenImg} alt="Anubis" /> : <span style={{ fontSize: 24 }}>🐺</span>}
+          </div>
+        </div>
+      </main>
+
+      {/* ── PAUSE OVERLAY MODAL ── */}
+      {isPaused && (
+        <div className="l2g-pause-overlay">
+          {gameLogoImg && <img src={gameLogoImg} className="l2g-pause-logo" alt="" />}
+          <div className="l2g-pause-modal">
+            {pauseMenuBg && <img src={pauseMenuBg} className="l2g-pause-modal-bg" alt="" />}
+            <div className="l2g-pause-content">
+              <button className="l2g-pause-btn-row" onClick={resetGame}>
+                {btnGreenBg && <img src={btnGreenBg} className="l2g-pause-btn-bg" alt="" />}
+                <span className="l2g-pause-btn-label">RESTART LEVEL</span>
+              </button>
+              <button className="l2g-pause-btn-row" onClick={() => setIsPaused(false)}>
+                {btnGoldBg && <img src={btnGoldBg} className="l2g-pause-btn-bg" alt="" />}
+                <span className="l2g-pause-btn-label">RESUME QUEST</span>
+              </button>
+              <button className="l2g-pause-btn-row" onClick={() => navigate('/menu')}>
+                {btnRedBg && <img src={btnRedBg} className="l2g-pause-btn-bg" alt="" />}
+                <span className="l2g-pause-btn-label">QUIT</span>
+              </button>
+            </div>
+          </div>
+          <div className="l2g-pause-audio">
+            <button className="l2g-audio-btn">
+              {soundOnIcon ? <img src={soundOnIcon} alt="sound" /> : <span style={{ fontSize: 22 }}>🔊</span>}
+            </button>
+            <button className="l2g-audio-btn">
+              {musicOnIcon ? <img src={musicOnIcon} alt="music" /> : <span style={{ fontSize: 22 }}>🎵</span>}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

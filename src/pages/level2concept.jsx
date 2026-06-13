@@ -108,7 +108,7 @@ const Level2Concept = () => {
                     <div className="l2-action">
                         <button
                             className="l2-start-btn"
-                            onClick={() => navigate('/game-play-screen')}
+                            onClick={() => navigate('/Gameboard2')}
                             style={{ backgroundImage: `url(${startBtnImg})` }}
                         >
                             START LEVEL
