@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@700;900&display=swap');
+
+/* ── Keyframes Vectors ── */
+@keyframes win2Entry {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes hero2Float {
+  0%, 100 { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+@keyframes chest2Pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.02); }
+}
+@keyframes title2GlowFX {
+  0%, 100% { text-shadow: 0 0 8px rgba(0, 229, 255, 0.4), 2px 2px 3px rgba(0,0,0,0.9); }
+  50%      { text-shadow: 0 0 16px rgba(0, 229, 255, 0.7), 2px 2px 3px rgba(0,0,0,0.9); }
+}
+@keyframes spark2Upward {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.4; }
+  100% { transform: translateY(-90px) scale(1.1); opacity: 0; }
+}
+@keyframes btn2Shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Root Viewport Framework ── */
+.win2-wrapper {
+  position: relative;
+  width: 852px;
+  height: 393px;
+  min-width: 852px;
+  max-width: 852px;
+  min-height: 393px;
+  max-height: 393px;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 auto;
+  background: #041217;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win2-bg-graphic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Ambient Floating Canvas ── */
+.win2-particles-container {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.win2-particle-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  animation: spark2Upward 3.2s linear infinite;
+  opacity: 0;
+}
+
+/* ── Typography Header Layer ── */
+.win2-top-title-banner {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.win2-main-headline {
+  margin: 0;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: #00e5ff;
+  animation: title2GlowFX 3s ease-in-out infinite;
+}
+
+.win2-sub-countdown {
+  margin: 2px 0 0 0;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  color: #c8eef5;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
+/* ── Layout Panels ── */
+.win2-content-container {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 48px 0px 0px;
+  box-sizing: border-box;
+  animation: win2Entry 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.win2-character-panel {
+  width: 65%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end; 
+  justify-content: flex-start;
+}
+
+.win2-hero-graphic {
+  height: 102%; 
+  width: auto;
+  object-fit: contain;
+  animation: hero2Float 4s ease-in-out infinite;
+  transform-origin: bottom center;
+  margin-bottom: -4px;
+}
+
+.win2-reward-action-panel {
+  width: 35%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end; 
+  gap: 12px;
+  box-sizing: border-box;
+  padding-bottom: 24px;
+}
+
+/* ── Asset Content Frames ── */
+.win2-chest-display-box {
+  width: 230px; 
+  height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win2-chest-graphic {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: chest2Pulse 3.5s ease-in-out infinite;
+}
+
+.win2-progress-bar-container {
+  width: 190px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win2-progress-track-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.win2-progress-staff-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 3;
+}
+
+.win2-progress-gradient-fill {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  height: 11px;
+  background: linear-gradient(90deg, #0d5d6e 0%, #00e5ff 70%, #b3f7ff 100%);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+  border-radius: 3px;
+  z-index: 2;
+  width: 64%;
+}
+
+/* ── Interactive Navigation Core ── */
+.win2-open-action-btn {
+  position: relative;
+  width: 100px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  margin-top: 2px;
+}
+
+.win2-btn-background-asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+
+.win2-btn-shimmer-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: btn2Shimmer 2.5s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+.win2-btn-label-text {
+  position: relative;
+  z-index: 3;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #FED700;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.95);
+}

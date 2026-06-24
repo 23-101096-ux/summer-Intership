@@ -80,20 +80,23 @@ export default function GameBoard2() {
       tokenRef.current = next;
       setTokenStep(next);
 
-      if (next >= 4 && tokenRef.current < 14) {
+      // Increment relic accumulation along the path up to the required amount to win
+      if (next >= 4 && next < 9) {
         setRelicCount(1);
+      } else if (next >= 9) {
+        setRelicCount(2);
       }
 
-      // If character reaches the loss tile, play animation then redirect to losepage
+      // If character reaches the end tile, trigger win completion sequence
       if (next === WALK_PATH.length - 1) {
-        setGameState('failed');
+        setGameState('won');
         setIsAnimating(false);
         isAnimRef.current = false;
         
-        // Wait 1200ms for the token's burnFX animation to finish before changing routes
+        // Wait 800ms for a satisfying landing pause, then redirect to win page
         setTimeout(() => {
-          navigate('/losepage');
-        }, 1200);
+          navigate('/winpage2');
+        }, 800);
         return;
       }
 
@@ -160,7 +163,7 @@ export default function GameBoard2() {
           <div className="l2g-spirit-bar">
             {timerEmptyImg && <img src={timerEmptyImg} className="l2g-timer-img" alt="" />}
             <div className="l2g-fill-track">
-              <div className="l2g-fill-bar" style={{ width: relicCount > 0 ? '50%' : '0%' }}></div>
+              <div className="l2g-fill-bar" style={{ width: relicCount === 1 ? '50%' : relicCount === 2 ? '100%' : '0%' }}></div>
             </div>
           </div>
         </div>

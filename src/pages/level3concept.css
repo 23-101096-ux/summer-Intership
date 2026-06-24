@@ -1,0 +1,270 @@
+.l3-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 852px;
+    height: 393px;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.l3-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    animation: l3ScanMove 8s linear infinite;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 229, 255, 0.012) 3px,
+        rgba(0, 229, 255, 0.012) 4px
+    );
+}
+
+.l3-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.85) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.l3-wrapper__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Recreates the unique curved corners outer gold framework from Screenshot 2026-06-17 at 3.08.35 PM.jpg */
+.l3-modal-outer-frame {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: calc(100% - 10px);
+    border: 3px solid #D8A43A;
+    border-radius: 40px 14px 40px 14px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.l3-modal {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #D8A43A;
+    border-radius: 32px 10px 32px 10px;
+    padding: 24px 34px 40px 24px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: rgba(3, 14, 16, 0.85);
+    animation: l3ModalEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    box-shadow:
+        0 0 45px rgba(0, 0, 0, 0.95),
+        inset 0 0 50px rgba(0, 0, 0, 0.7);
+}
+
+/* Row wrapper for internal columns layout */
+.l3-main-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 32px;
+    align-items: stretch;
+}
+
+/* Close button positioning aligned precisely inside the content panel header row */
+.l3-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    background: transparent;
+    border: 2px solid #D8A43A;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 10;
+}
+
+.l3-close-btn:hover {
+    background: rgba(216, 164, 58, 0.2);
+    transform: scale(1.05);
+}
+
+.l3-close-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.l3-left-panel {
+    flex: 0 0 270px;
+    height: calc(100% - 12px);
+    border: 1.5px solid #D8A43A;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: l3SlideLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.l3-character {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.l3-center-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 2px;
+    position: relative;
+    animation: l3SlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.l3-title {
+    color: #FED700;
+    font-size: 25px;
+    margin: 0 0 14px 0;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.l3-heading {
+    color: #FED700;
+    font-size: 14px;
+    margin: 0 0 6px 0;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.l3-text {
+    color: #a4b9bd;
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 0 0 10px 0;
+    max-width: 90%;
+}
+
+.l3-divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #D8A43A 60%, transparent);
+    margin: 4px 0 12px 0;
+    width: 90%;
+}
+
+.l3-goal-section {
+    margin-top: 2px;
+}
+
+.l3-goals {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.l3-goal-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #a4b9bd;
+    font-size: 12px;
+}
+
+.l3-goal-item--highlight {
+    color: #FED700;
+}
+
+.l3-goal-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Centers action row exactly over the bottom borders */
+.l3-action {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+}
+
+.l3-start-btn {
+    width: 195px;
+    height: 42px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    color: #000;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease;
+}
+
+.l3-start-btn:hover {
+    transform: scale(1.04);
+}
+
+.l3-wrapper__particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    animation: l3ParticleFloat var(--d, 4s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+/* Animations */
+@keyframes l3ScanMove {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 400px; }
+}
+@keyframes l3ParticleFloat {
+    0%   { transform: translate(0, 0) scale(1); opacity: var(--op, 0.4); }
+    100% { transform: translate(var(--tx, 10px), var(--ty, -20px)) scale(1.2); opacity: calc(var(--op, 0.4) * 0.3); }
+}
+@keyframes l3ModalEnter {
+    from { opacity: 0; transform: scale(0.97) translateY(6px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes l3SlideLeft {
+    from { opacity: 0; transform: translateX(-14px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes l3SlideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}

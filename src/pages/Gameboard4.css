@@ -1,0 +1,560 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght=700;800;900&family=Open+Sans:wght=700;800&display=swap');
+
+.l4g-viewport-frame {
+  position: relative;
+  width: 852px;
+  height: 393px;
+  min-width: 852px;
+  max-width: 852px;
+  min-height: 393px;
+  max-height: 393px;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 auto;
+  background: #010406;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.l4g-canvas-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* HUD Matrix Structural Setup */
+.l4g-hud-interface-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 10px 14px;
+}
+
+/* ── HUD TOP BAR LAYOUT ── */
+.l4g-hud-top-bar {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4px;
+  box-sizing: border-box;
+}
+
+.l4g-level-identity-titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 160px;
+}
+.l4g-main-headline {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: #ff2a6d;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(255, 42, 109, 0.4);
+}
+.l4g-sub-headline {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 9px;
+  color: #8a9ba8;
+  margin: 2px 0 0 0;
+  letter-spacing: 1.2px;
+  opacity: 0.8;
+}
+
+/* Progress Frame Component */
+.l4g-spirit-energy-progress-container {
+  position: relative;
+  width: 320px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-spirit-frame-asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 4;
+}
+.l4g-spirit-bar-label {
+  position: absolute;
+  top: 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  font-weight: 800;
+  color: #cca3b1;
+  letter-spacing: 0.8px;
+  z-index: 5;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+}
+.l4g-spirit-gradient-bar-fill {
+  position: absolute;
+  left: 14%;
+  height: 8px;
+  background: linear-gradient(90deg, #d60042 0%, #ff4b1f 65%, #f1c40f 100%);
+  box-shadow: 0 0 12px rgba(255, 15, 80, 0.75);
+  border-radius: 4px;
+  z-index: 2;
+  transition: width 0.3s ease-out;
+}
+
+.l4g-top-right-system-nodes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  min-width: 140px;
+  justify-content: flex-end;
+}
+.l4g-counter-badge-node {
+  position: relative;
+  width: 75px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-badge-backing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.l4g-badge-value-text {
+  position: relative;
+  z-index: 2;
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 12px;
+  color: #ff3366;
+  padding-left: 14px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* Upsized Pause Toggle Frame */
+.l4g-pause-toggle-node {
+  width: 42px;
+  height: 42px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-pause-toggle-node img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── HUD THREE-COLUMN WORKSPACE FRAME ── */
+.l4g-hud-main-workspace {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 8px;
+  box-sizing: border-box;
+  padding-top: 4px;
+}
+
+/* COLUMN 1: INTERACTIVE DICE PANEL (NOW LEFT SIDE) */
+.l4g-workspace-left-dice-panel {
+  position: relative;
+  width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.l4g-panel-background-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+.l4g-left-panel-dice-content-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding-top: 86px; 
+}
+.l4g-dice-flex-arena-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 0 18px;
+  box-sizing: border-box;
+}
+.l4g-dice-individual-slot {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-dice-node-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* COLUMN 2: LARGE CENTER BOARD */
+.l4g-workspace-middle-board-frame {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0 4px;
+}
+.l4g-actual-board-asset {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+/* Dynamic Track Movement System */
+.l4g-anubis-token-avatar-anchor {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 8px #ff0055);
+  z-index: 15;
+}
+.l4g-token-graphic-node {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* COLUMN 3: STRATEGY INTERACTIVES (NOW RIGHT SIDE) */
+.l4g-workspace-right-strategy-panel {
+  position: relative;
+  width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-right-panel-strategy-content-layer {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-top: 92px; 
+}
+.l4g-strategy-vertical-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  align-items: center;
+}
+.l4g-strategy-interactive-item {
+  position: relative;
+  width: 112px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-btn-state-asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+.l4g-btn-active-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 2;
+}
+.l4g-btn-inner-text {
+  position: relative;
+  z-index: 5;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 800;
+  color: #7d8b96;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+}
+.l4g-btn-inner-text.active-gold {
+  color: #ffffff;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.4);
+}
+
+/* Fast Chaos Spin Keyframes */
+.l4g-dice-rolling-active .l4g-dice-node-image {
+  animation: l4gDiceSpin 0.12s linear infinite;
+}
+
+@keyframes l4gDiceSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pause Overlay Screen Elements */
+.l4g-pause-curtain-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(1, 5, 8, 0.92);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-pause-branding-logo {
+  width: 140px;
+  object-fit: contain;
+  margin-bottom: -8px;
+  z-index: 102;
+}
+.l4g-pause-window {
+  position: relative;
+  width: 320px;
+  height: 200px;
+  z-index: 101;
+}
+.l4g-window-backdrop-slice {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+.l4g-pause-layout-actions {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 14px;
+  gap: 6px;
+  box-sizing: border-box;
+}
+.l4g-victory-text {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: #ffd700;
+  margin: 0 0 4px 0;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+.l4g-action-button-row {
+  position: relative;
+  width: 180px;
+  height: 34px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l4g-action-btn-asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+.l4g-action-btn-text {
+  position: relative;
+  z-index: 2;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+}
+/* ── Level 1 Pause Screen Replication Styles ── */
+
+.egypt-pause-screen-curtain {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 10, 15, 0.88);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.egypt-pause-dialog-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.egypt-branding-panel-logo {
+  width: 146px;
+  object-fit: contain;
+  margin-bottom: -15px;
+  z-index: 215;
+}
+
+.egypt-pause-window-bounding {
+  position: relative;
+  width: 334px;
+  height: 224px;
+  z-index: 210;
+}
+
+.egypt-window-backdrop-slice {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+
+.egypt-pause-actions-stack {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 26px;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.egypt-pause-action-row-btn {
+  position: relative;
+  width: 214px;
+  height: 38px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+}
+
+.egypt-pause-action-row-btn:hover {
+  transform: scale(1.03);
+}
+
+.egypt-btn-asset-slice {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+}
+
+.egypt-btn-label {
+  position: relative;
+  z-index: 3;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+}
+
+.egypt-pause-audio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 14px;
+  z-index: 220;
+}
+
+.egypt-audio-toggle-node {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+}
+
+.egypt-audio-toggle-node:hover {
+  transform: scale(1.08);
+}
+
+.egypt-audio-toggle-node img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.fallback-ico {
+  font-size: 20px;
+  color: #ffd700;
+}

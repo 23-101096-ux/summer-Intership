@@ -4,12 +4,17 @@ import Menu from "./pages/menu";
 import Levels from "./pages/levels";
 import Level1Concept from "./pages/level1concept";
 import Level2Concept from "./pages/level2concept";
+import Level3Concept from "./pages/level3concept";
 import Settings from "./pages/settings";
 import GameBoard1 from "./pages/Gameboard1";
 import WinPage from "./pages/winpage";
 import Levels2 from "./pages/levels2";
 import GameBoard2 from "./pages/Gameboard2";
 import LosePage from "./pages/losepage";
+import Gameboard3 from "./pages/Gameboard3";
+import GameBoard4 from "./pages/Gameboard4";
+import WinPage2 from "./pages/winpage2";
+import Levels3 from "./pages/levels3";
 
 const SplashWrapper = () => {
     const navigate = useNavigate();
@@ -27,13 +32,18 @@ const Routess = () => {
                 <Route path="/menu" element={<Menu />} />
                 <Route path="/levels" element={<Levels />} />
                 <Route path="/level1concept" element={<Level1Concept />} />  
-                <Route path="/level2concept" element={<Level2Concept />} />     
+                <Route path="/level2concept" element={<Level2Concept />} />
+                <Route path="/level3concept" element={<Level3Concept />} />       
                 <Route path="/settings" element={< Settings />} />
                 <Route path="/Gameboard1" element={< GameBoard1 />} /> 
                 <Route path="/winpage" element={< WinPage />} /> 
+                <Route path="/winpage2" element={< WinPage2 />} /> 
                 <Route path="/losepage" element={< LosePage />} />   
                 <Route path="/levels2" element={< Levels2 />} />
-                <Route path="/Gameboard2" element={< GameBoard2 />} />           
+                <Route path="/levels3" element={< Levels3 />} />
+                <Route path="/Gameboard2" element={< GameBoard2 />} />  
+                <Route path="/Gameboard3" element={< Gameboard3 />} /> 
+                <Route path="/Gameboard4" element={< GameBoard4 />} />                
                 
             </Routes>
         </BrowserRouter>
