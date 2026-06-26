@@ -103,13 +103,15 @@ export default function Gameboard4() {
         if (next >= WALK_PATH.length - 1) {
           setHasWon(true);
           setSpiritEnergy(100);
+          // Complete navigation out of the board straight to your standalone page route
+          navigate('/level4victory');
         }
         return;
       }
       setTimeout(tick, 220);
     };
     setTimeout(tick, 220);
-  }, []);
+  }, [navigate]);
 
   const triggerDiceRoll = () => {
     if (isRolling || isAnimRef.current || winRef.current || pauseRef.current) return;
@@ -195,10 +197,10 @@ export default function Gameboard4() {
           </div>
         </div>
 
-        {/* ── WORKSPACE SPLIT (Left/Right Elements Swapped) ── */}
+        {/* ── WORKSPACE SPLIT ── */}
         <div className="l4g-hud-main-workspace">
           
-          {/* COLUMN 1: INTERACTIVE DOUBLE DICE PANEL (NOW LEFT SIDE) */}
+          {/* COLUMN 1: INTERACTIVE DOUBLE DICE PANEL */}
           <div 
             className={`l4g-workspace-left-dice-panel ${isRolling ? 'l4g-dice-rolling-active' : ''}`}
             onClick={triggerDiceRoll}
@@ -232,7 +234,7 @@ export default function Gameboard4() {
             )}
           </div>
 
-          {/* COLUMN 3: STRATEGY INTERACTIVES (NOW RIGHT SIDE) */}
+          {/* COLUMN 3: STRATEGY INTERACTIVES */}
           <div className="l4g-workspace-right-strategy-panel">
             {activeDiceBtnBg && <img src={activeDiceBtnBg} className="l4g-panel-background-frame" alt="" />}
             
@@ -261,9 +263,7 @@ export default function Gameboard4() {
       </div>
 
       {/* OVERLAY SCREENS */}
-
-{/* OVERLAY SCREENS */}
-{isPaused && (
+      {isPaused && (
         <div className="egypt-pause-screen-curtain">
           <div className="egypt-pause-dialog-panel">
             {gameLogoImg && <img src={gameLogoImg} className="egypt-branding-panel-logo" alt="" />}
@@ -290,32 +290,9 @@ export default function Gameboard4() {
             </div>
           </div>
 
-          {/* Lower Audio Toggle Nodes floating cleanly beneath the container box */}
           <div className="egypt-pause-audio-controls">
-            <button className="egypt-audio-toggle-node" aria-label="Toggle Sound Effects">
-              {/* {soundOnIcon ? (
-                <img src={soundOnIcon} alt="Sound FX Toggle" />
-              ) : (
-                <span className="fallback-ico">🔊</span>
-              )} */}
-            </button>
-            
-            <button className="egypt-audio-toggle-node" aria-label="Toggle Background Music">
-              {/* {musicOnIcon ? (
-                <img src={musicOnIcon} alt="Music Track Toggle" />
-              ) : (
-                <span className="fallback-ico">🎵</span>
-              )} */}
-            </button>
-          </div>
-        </div>
-      )} {/* <-- Added missing closing parenthesis ')' here */}
-
-      {/* Separate Win Overlay Handling */}
-      {!isPaused && hasWon && (
-        <div className="l4g-pause-curtain-overlay">
-          <div className="l4g-pause-window" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <h2 className="l4g-victory-text">VICTORY ACHIEVED!</h2>
+            <button className="egypt-audio-toggle-node" aria-label="Toggle Sound Effects"></button>
+            <button className="egypt-audio-toggle-node" aria-label="Toggle Background Music"></button>
           </div>
         </div>
       )}

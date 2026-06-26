@@ -118,7 +118,7 @@ export default function Gameboard3() {
           setRelicsCollected([1, 2, 3]); // Guarantee full clear counter
           setSpiritEnergy(100);
           setTimeout(() => {
-            navigate('/win');
+            navigate('/level3victory');
           }, 1200);
         }
         return;

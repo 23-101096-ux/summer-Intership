@@ -15,6 +15,9 @@ import Gameboard3 from "./pages/Gameboard3";
 import GameBoard4 from "./pages/Gameboard4";
 import WinPage2 from "./pages/winpage2";
 import Levels3 from "./pages/levels3";
+import Level3Victory from "./pages/level3victory";
+import Level4Victory from "./pages/level4victory";
+import InfiniteGameboard from "./pages/InfiniteGameboard";
 
 const SplashWrapper = () => {
     const navigate = useNavigate();
@@ -43,7 +46,10 @@ const Routess = () => {
                 <Route path="/levels3" element={< Levels3 />} />
                 <Route path="/Gameboard2" element={< GameBoard2 />} />  
                 <Route path="/Gameboard3" element={< Gameboard3 />} /> 
-                <Route path="/Gameboard4" element={< GameBoard4 />} />                
+                <Route path="/Gameboard4" element={< GameBoard4 />} /> 
+                <Route path="/level3victory" element={< Level3Victory />} />  
+                <Route path="/level4victory" element={< Level4Victory />} /> 
+                <Route path="/infiniteGameboard" element={< InfiniteGameboard />} />                 
                 
             </Routes>
         </BrowserRouter>

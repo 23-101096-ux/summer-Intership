@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Open+Sans:wght@700;800&display=swap');
+
+/* Main Page Screen Frame - Matches your game framework canvas sizes */
+.l4-vic-viewport-frame {
+  position: relative;
+  width: 852px;
+  height: 393px;
+  min-width: 852px;
+  max-width: 852px;
+  min-height: 393px;
+  max-height: 393px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 0 auto;
+  user-select: none;
+}
+
+/* Layered Background behind the Victory Card */
+.l4-vic-screen-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ambient backdrop darkness layout layer */
+.l4-vic-dark-backdrop-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Modal Window Base Box - Precisely proportioned vertical rectangle matching your asset */
+.l4-vic-modal-window {
+  position: relative;
+  width: 250px;
+  height: 325px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+}
+
+/* Structural Background Frame - Contains integrated Frame border and Anubis artwork logo */
+.l4-vic-structural-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Internal Layout Panel Group - Top padding sits below embedded crest artwork safely */
+.l4-vic-content-layout {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 72px 20px 22px 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Typography Headings Layout elements */
+.l4-vic-heading-primary {
+margin-top: 15px;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: #F3BC2B;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(252, 230, 162, 0.3);
+}
+
+.l4-vic-sub-status {
+  margin: 4px 0 0 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  color: #79929c;
+  letter-spacing: 1px;
+}
+
+.l4-vic-level-highlight {
+  margin: 1px 0 0 0;
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #4da3ff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(77, 163, 255, 0.4);
+}
+
+.l4-vic-divider {
+  width: 65%;
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #4a3e25 50%, transparent 100%);
+  margin: 8px 0;
+}
+
+/* Rewards Block Row Container Box */
+.l4-vic-rewards-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: auto;
+}
+
+.l4-vic-section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  font-weight: 800;
+  color: #dfb23e;
+  letter-spacing: 0.5px;
+}
+
+/* Small Custom Reward Badge */
+.l4-vic-reward-badge-container {
+  position: relative;
+  width: 76px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.l4-vic-badge-asset-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.l4-vic-reward-badge-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.l4-vic-reward-value {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 900;
+  color: #ebd18a;
+  margin-left: 30px;
+}
+
+/* Footer Destination Indicators */
+.l4-vic-proceeding-txt {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  color: #79929c;
+  letter-spacing: 1px;
+}
+
+.l4-vic-next-level-txt {
+  margin: 1px 0 12px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  font-weight: 900;
+  color: #4da3ff;
+  letter-spacing: 0.5px;
+}
+
+/* Golden Confirm Interactive Button Group */
+.l4-vic-continue-action-btn {
+  position: relative;
+  width: 135px;
+  height: 50px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: transform 0.1s ease;
+}
+
+.l4-vic-continue-action-btn:active {
+  transform: scale(0.96);
+}
+
+.l4-vic-btn-slice-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.l4-vic-btn-label {
+  position: relative;
+  z-index: 3;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
